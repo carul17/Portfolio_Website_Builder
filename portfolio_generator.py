@@ -183,10 +183,18 @@ Write only the about me text, no quotes or extra text:"""
         projects = resume_data.get('projects', [])
         education = resume_data.get('education', [])
         
-        # Generate personalized descriptions
+        # Generate personalized descriptions or use existing ones
         print("Generating personalized descriptions...")
-        hero_description = self.generate_personalized_description(resume_data, "hero")
-        about_description = self.generate_personalized_description(resume_data, "about")
+        
+        # Check if custom descriptions exist in the resume data
+        hero_description = resume_data.get('hero_description', '').strip()
+        about_description = resume_data.get('about_me', '').strip()
+        
+        # If empty, generate personalized descriptions
+        if not hero_description:
+            hero_description = self.generate_personalized_description(resume_data, "hero")
+        if not about_description:
+            about_description = self.generate_personalized_description(resume_data, "about")
         
         # Generate component HTML
         social_links = self._generate_social_links(linkedin, github, website, email)

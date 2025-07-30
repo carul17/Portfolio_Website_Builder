@@ -127,6 +127,13 @@ JSON:"""
             
             # Try to parse the JSON to ensure it's valid
             parsed_json = json.loads(json_response)
+            
+            # Add empty hero and about_me sections if they don't exist
+            if 'hero_description' not in parsed_json:
+                parsed_json['hero_description'] = ""
+            if 'about_me' not in parsed_json:
+                parsed_json['about_me'] = ""
+            
             return parsed_json
             
         except json.JSONDecodeError as e:
@@ -203,6 +210,13 @@ IMPORTANT INSTRUCTIONS:
             
             json_response = response.choices[0].message.content.strip()
             parsed_json = json.loads(json_response)
+            
+            # Add empty hero and about_me sections if they don't exist
+            if 'hero_description' not in parsed_json:
+                parsed_json['hero_description'] = ""
+            if 'about_me' not in parsed_json:
+                parsed_json['about_me'] = ""
+            
             return parsed_json
             
         except json.JSONDecodeError as e:
