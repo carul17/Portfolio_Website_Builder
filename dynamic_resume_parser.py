@@ -46,9 +46,19 @@ class DynamicResumeParser:
                             for span in line["spans"]:
                                 span_text = span["text"]
                                 span_flags = span.get("flags", 0)
+                                font_name = span.get("font", "").lower()
                                 
-                                # Check if text is bold (flag 16 indicates bold)
-                                is_bold = bool(span_flags & 16)
+                                # Check if text is bold using multiple methods
+                                # Method 1: Check flags (16 = bold, 20 = bold+italic)
+                                is_bold_flag = bool(span_flags & 16)
+                                # Method 2: Check font name for bold indicators
+                                is_bold_font = any(bold_indicator in font_name for bold_indicator in ['bold', 'black', 'heavy', 'semibold'])
+                                # Method 3: Check font weight if available
+                                font_weight = span.get("weight", 0)
+                                is_bold_weight = font_weight >= 600 if font_weight else False
+                                
+                                # Text is bold if any method indicates it
+                                is_bold = is_bold_flag or is_bold_font or is_bold_weight
                                 
                                 # Check if this text is a hyperlink
                                 if span_text.strip() in link_map:
@@ -62,8 +72,11 @@ class DynamicResumeParser:
                                         formatted_text = f"**{uri}**" if is_bold else uri
                                         line_text += formatted_text + " "
                                 else:
-                                    # Add bold markers for bold text
-                                    formatted_text = f"**{span_text}**" if is_bold else span_text
+                                    # Add bold markers for bold text, but only if it's not whitespace
+                                    if is_bold and span_text.strip():
+                                        formatted_text = f"**{span_text}**"
+                                    else:
+                                        formatted_text = span_text
                                     line_text += formatted_text
                             page_text += line_text + "\n"
                 
@@ -91,7 +104,8 @@ IMPORTANT INSTRUCTIONS:
 6. If certain standard sections don't exist, don't include them
 7. If there are unique sections specific to this resume, include them with appropriate names
 8. Ensure all text is properly cleaned and formatted
-9. Return ONLY valid JSON, no additional text or explanations
+9. PRESERVE BOLD FORMATTING: Keep **text** markers for bold text in descriptions and responsibilities
+10. Return ONLY valid JSON, no additional text or explanations
 
 Resume text:
 {resume_text}
@@ -167,7 +181,8 @@ IMPORTANT INSTRUCTIONS:
 6. If certain standard sections don't exist, don't include them
 7. If there are unique sections specific to this resume, include them with appropriate names
 8. Ensure all text is properly cleaned and formatted
-9. Return ONLY valid JSON, no additional text or explanations
+9. PRESERVE BOLD FORMATTING: Keep **text** markers for bold text in descriptions and responsibilities
+10. Return ONLY valid JSON, no additional text or explanations
 """
         
         if specific_requirements:
