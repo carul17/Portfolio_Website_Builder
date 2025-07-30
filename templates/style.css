@@ -435,8 +435,9 @@ section {
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .project-content {

@@ -120,6 +120,11 @@ class PortfolioGenerator:
             details.append(f'<div class="contact-item"><i class="fas fa-phone"></i><a href="tel:{phone}">{phone}</a></div>')
         if location:
             details.append(f'<div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>{location}</span></div>')
+        
+        # If no contact details found, return empty string to show placeholder
+        if not details:
+            return '<div class="contact-item"><i class="fas fa-info-circle"></i><span>Contact information will be displayed here</span></div>'
+        
         return ''.join(details)
     
     def _generate_social_links_contact(self, linkedin: str, github: str, website: str) -> str:
@@ -133,6 +138,21 @@ class PortfolioGenerator:
             links.append(f'<a href="{website}" target="_blank" class="social-btn"><i class="fas fa-globe"></i>Website</a>')
         return ''.join(links)
     
+    def _format_date_range(self, dates) -> str:
+        """Format date range from various formats."""
+        if isinstance(dates, dict):
+            start = dates.get('start', '')
+            end = dates.get('end', '')
+            if start and end:
+                return f"{start} - {end}"
+            elif start:
+                return start
+            elif end:
+                return end
+        elif isinstance(dates, str):
+            return dates
+        return str(dates) if dates else ''
+    
     def _generate_experience_html(self, work_experience: list) -> str:
         """Generate HTML for work experience section."""
         if not work_experience:
@@ -142,7 +162,7 @@ class PortfolioGenerator:
         for exp in work_experience:
             company = exp.get('company', 'Company')
             position = exp.get('position', exp.get('title', 'Position'))
-            duration = exp.get('duration', exp.get('dates', ''))
+            duration = self._format_date_range(exp.get('duration', exp.get('dates', '')))
             location = exp.get('location', '')
             description = exp.get('description', exp.get('responsibilities', ''))
             
@@ -168,6 +188,17 @@ class PortfolioGenerator:
             '''
         return html
     
+    def _format_description(self, description) -> str:
+        """Format project description by removing brackets and cleaning text."""
+        if isinstance(description, list):
+            # Join list items with proper formatting
+            return ' '.join(str(item).strip('[]"\'') for item in description if item)
+        elif isinstance(description, str):
+            # Remove brackets and quotes, clean up the text
+            cleaned = description.strip('[]"\'')
+            return cleaned
+        return str(description) if description else ''
+    
     def _generate_projects_html(self, projects: list) -> str:
         """Generate HTML for projects section."""
         if not projects:
@@ -176,7 +207,7 @@ class PortfolioGenerator:
         html = ''
         for project in projects:
             name = project.get('name', project.get('title', 'Project'))
-            description = project.get('description', '')
+            description = self._format_description(project.get('description', ''))
             technologies = project.get('technologies', project.get('tech_stack', []))
             link = project.get('link', project.get('url', ''))
             github = project.get('github', project.get('repository', ''))
@@ -195,8 +226,8 @@ class PortfolioGenerator:
                             {tech_tags}
                         </div>
                         <div class="project-links">
+                            {f'<a href="{github}" target="_blank" class="project-btn"><i class="fab fa-github"></i>GitHub</a>' if github else ''}
                             {f'<a href="{link}" target="_blank" class="project-btn"><i class="fas fa-external-link-alt"></i>Live Demo</a>' if link else ''}
-                            {f'<a href="{github}" target="_blank" class="project-btn"><i class="fab fa-github"></i>Code</a>' if github else ''}
                         </div>
                     </div>
                 </div>
