@@ -31,10 +31,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(0, 0, 0, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.3)';
+        navbar.style.background = 'rgba(10, 10, 15, 0.98)';
+        navbar.style.boxShadow = '0 2px 20px rgba(139, 92, 246, 0.2)';
     } else {
-        navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+        navbar.style.background = 'rgba(10, 10, 15, 0.95)';
         navbar.style.boxShadow = 'none';
     }
 });
@@ -215,7 +215,7 @@ const createScrollProgress = () => {
         left: 0;
         width: 0%;
         height: 3px;
-        background: linear-gradient(45deg, #60a5fa, #a78bfa);
+        background: linear-gradient(45deg, #8b5cf6, #a855f7);
         z-index: 9999;
         transition: width 0.1s ease;
     `;

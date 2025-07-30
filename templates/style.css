@@ -12,8 +12,8 @@ html {
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #f8fafc;
-    background-color: #000000;
+    color: #e2e8f0;
+    background-color: #0a0a0f;
 }
 
 .container {
@@ -27,12 +27,12 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(10, 10, 15, 0.95);
     backdrop-filter: blur(15px);
     z-index: 1000;
     padding: 1rem 0;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .navbar::before {
@@ -42,7 +42,7 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    background: linear-gradient(90deg, #8b5cf6, #a855f7);
     transition: width 0.3s ease;
 }
 
@@ -62,7 +62,7 @@ body {
 .nav-logo a {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #60a5fa;
+    color: #a855f7;
     text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ body {
 }
 
 .nav-link {
-    color: #ffffff;
+    color: #e2e8f0;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -80,7 +80,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 .nav-link::after {
@@ -90,7 +90,7 @@ body {
     height: 2px;
     bottom: -5px;
     left: 0;
-    background-color: #60a5fa;
+    background-color: #a855f7;
     transition: width 0.3s ease;
 }
 
@@ -107,7 +107,7 @@ body {
 .bar {
     width: 25px;
     height: 3px;
-    background-color: #ffffff;
+    background-color: #e2e8f0;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -117,7 +117,7 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #000000 0%, #111111 100%);
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0a1f 100%);
     color: white;
     position: relative;
     overflow: hidden;
@@ -144,8 +144,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
     animation: pulse 4s ease-in-out infinite alternate;
 }
 
@@ -220,8 +220,8 @@ body {
 }
 
 .btn-primary {
-    background: #60a5fa;
-    color: #000000;
+    background: #a855f7;
+    color: #ffffff;
 }
 
 .btn-primary:hover {
@@ -232,12 +232,12 @@ body {
 .btn-secondary {
     background: transparent;
     color: #fff;
-    border: 2px solid #60a5fa;
+    border: 2px solid #a855f7;
 }
 
 .btn-secondary:hover {
-    background: #60a5fa;
-    color: #000000;
+    background: #a855f7;
+    color: #ffffff;
 }
 
 .social-links {
@@ -259,8 +259,8 @@ body {
 }
 
 .social-links a:hover {
-    background: #60a5fa;
-    color: #000000;
+    background: #a855f7;
+    color: #ffffff;
     transform: translateY(-3px);
 }
 
@@ -316,13 +316,13 @@ section {
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: linear-gradient(45deg, #60a5fa, #a78bfa);
+    background: linear-gradient(45deg, #8b5cf6, #a855f7);
     border-radius: 2px;
 }
 
 /* About Section */
 .about {
-    background: #111111;
+    background: #0f0f17;
 }
 
 .about-content {
@@ -353,7 +353,7 @@ section {
 }
 
 .detail-item i {
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 /* Experience Section */
@@ -370,7 +370,7 @@ section {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: #374151;
+    background: #4c1d95;
     transform: translateX(-50%);
 }
 
@@ -394,7 +394,7 @@ section {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: #60a5fa;
+    background: #a855f7;
     border-radius: 50%;
     top: 0;
 }
@@ -408,7 +408,7 @@ section {
 }
 
 .timeline-content {
-    background: #1f2937;
+    background: #1a1625;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -416,8 +416,8 @@ section {
 }
 
 .timeline-content:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    background: #374151;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+    background: #2d1b3d;
 }
 
 .timeline-content h3 {
@@ -427,7 +427,7 @@ section {
 }
 
 .timeline-content h4 {
-    color: #60a5fa;
+    color: #a855f7;
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -456,12 +456,12 @@ section {
     content: '▸';
     position: absolute;
     left: 0;
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 /* Projects Section */
 .projects {
-    background: #111111;
+    background: #0f0f17;
 }
 
 .projects-grid {
@@ -473,7 +473,7 @@ section {
 }
 
 .project-card {
-    background: #1f2937;
+    background: #1a1625;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -484,8 +484,8 @@ section {
 
 .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(96, 165, 250, 0.3);
-    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    box-shadow: 0 25px 50px rgba(139, 92, 246, 0.3);
+    background: linear-gradient(135deg, #2d1b3d 0%, #1a1625 100%);
 }
 
 .project-card::before {
@@ -495,7 +495,7 @@ section {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -543,11 +543,11 @@ section {
     content: '▸';
     position: absolute;
     left: 0;
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 .project-card:hover .project-content h3 {
-    color: #60a5fa;
+    color: #a855f7;
     transform: translateX(5px);
 }
 
@@ -567,7 +567,7 @@ section {
 }
 
 .tech-tag {
-    background: #374151;
+    background: #4c1d95;
     color: #ffffff;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -578,8 +578,8 @@ section {
 }
 
 .project-card:hover .tech-tag {
-    background: linear-gradient(45deg, #60a5fa, #a78bfa);
-    color: #000000;
+    background: linear-gradient(45deg, #8b5cf6, #a855f7);
+    color: #ffffff;
     transform: translateY(-2px);
 }
 
@@ -590,8 +590,8 @@ section {
 
 .project-btn {
     padding: 0.7rem 1.5rem;
-    background: #60a5fa;
-    color: #000000;
+    background: #a855f7;
+    color: #ffffff;
     text-decoration: none;
     border-radius: 25px;
     font-weight: 500;
@@ -619,8 +619,8 @@ section {
 }
 
 .project-btn:hover {
-    background: #3b82f6;
-    box-shadow: 0 8px 20px rgba(96, 165, 250, 0.4);
+    background: #8b5cf6;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
 }
 
 /* Skills Section */
@@ -633,7 +633,7 @@ section {
 }
 
 .skill-category {
-    background: #1f2937;
+    background: #1a1625;
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -654,8 +654,8 @@ section {
 }
 
 .skill-item {
-    background: linear-gradient(45deg, #60a5fa, #a78bfa);
-    color: #000000;
+    background: linear-gradient(45deg, #8b5cf6, #a855f7);
+    color: #ffffff;
     padding: 0.6rem 1.2rem;
     border-radius: 25px;
     font-weight: 500;
@@ -664,13 +664,13 @@ section {
 
 .skill-item:hover {
     transform: translateY(-5px) scale(1.1) rotate(2deg);
-    box-shadow: 0 8px 25px rgba(96, 165, 250, 0.6);
-    background: linear-gradient(45deg, #a78bfa, #60a5fa);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+    background: linear-gradient(45deg, #a855f7, #8b5cf6);
 }
 
 /* Education Section */
 .education {
-    background: #111111;
+    background: #0f0f17;
 }
 
 .education-grid {
@@ -682,7 +682,7 @@ section {
 }
 
 .education-card {
-    background: #1f2937;
+    background: #1a1625;
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -691,8 +691,8 @@ section {
 }
 
 .education-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    background: #374151;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+    background: #2d1b3d;
 }
 
 .education-card h3 {
@@ -702,7 +702,7 @@ section {
 }
 
 .education-card h4 {
-    color: #60a5fa;
+    color: #a855f7;
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -717,7 +717,7 @@ section {
 
 /* Contact Section */
 .contact {
-    background: linear-gradient(135deg, #000000 0%, #111111 100%);
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0a1f 100%);
     color: #fff;
 }
 
@@ -752,7 +752,7 @@ section {
 }
 
 .contact-item i {
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 .contact-item a {
@@ -761,7 +761,7 @@ section {
 }
 
 .contact-item a:hover {
-    color: #60a5fa;
+    color: #a855f7;
 }
 
 .social-links-contact {
@@ -785,14 +785,14 @@ section {
 }
 
 .social-btn:hover {
-    background: linear-gradient(45deg, #60a5fa, #3b82f6);
+    background: linear-gradient(45deg, #8b5cf6, #a855f7);
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(96, 165, 250, 0.4);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
 }
 
 /* Footer */
 .footer {
-    background: #000000;
+    background: #0a0a0f;
     color: #9ca3af;
     text-align: center;
     padding: 2rem 0;
@@ -809,7 +809,7 @@ section {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: #000000;
+        background-color: #0a0a0f;
         width: 100%;
         text-align: center;
         transition: 0.3s;
