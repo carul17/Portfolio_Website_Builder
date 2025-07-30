@@ -434,73 +434,13 @@ section {
     transition: all 0.3s ease;
 }
 
-.project-card {
-    position: relative;
-    overflow: hidden;
-}
-
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
-    transition: left 0.6s ease;
-    z-index: 1;
-}
-
-.project-card:hover::before {
-    left: 100%;
-}
-
 .project-card:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    border: 2px solid rgba(37, 99, 235, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15);
 }
 
 .project-card:hover .project-content h3 {
     color: #2563eb;
-    transform: translateX(10px);
-    transition: all 0.3s ease;
-}
-
-.project-card:hover .project-content p {
-    color: #1f2937;
-    transform: translateX(5px);
-    transition: all 0.3s ease 0.1s;
-}
-
-.project-card:hover .tech-tag {
-    background: linear-gradient(45deg, #2563eb, #7c3aed);
-    color: #fff;
-    transform: translateY(-2px) scale(1.05);
-    transition: all 0.3s ease;
-}
-
-.project-card:hover .tech-tag:nth-child(even) {
-    transition-delay: 0.1s;
-}
-
-.project-card:hover .tech-tag:nth-child(odd) {
-    transition-delay: 0.2s;
-}
-
-.project-card:hover .project-btn {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-    background: linear-gradient(45deg, #2563eb, #1d4ed8);
-}
-
-.project-card:hover .project-btn:first-child {
-    transition-delay: 0.1s;
-}
-
-.project-card:hover .project-btn:last-child {
-    transition-delay: 0.2s;
 }
 
 .project-content {
@@ -557,24 +497,8 @@ section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    position: relative;
-    overflow: hidden;
 }
 
-.project-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.project-btn:hover::before {
-    left: 100%;
-}
 
 .project-btn:hover {
     background: #1d4ed8;
