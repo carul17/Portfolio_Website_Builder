@@ -111,34 +111,30 @@ class ResumeParser:
         """Extract skills section"""
         skills = {}
         
-        # Find skills section
-        skills_match = re.search(r'SKILLS\s*\n(.*?)(?=\n[A-Z\s]+\n|\Z)', text, re.DOTALL | re.IGNORECASE)
+        # Find skills section - look for SKILLS header
+        skills_match = re.search(r'SKILLS\s*\n(.*?)(?=\nWORK EXPERIENCE|\nEXPERIENCE|\nEDUCATION|\nPROJECTS|\Z)', text, re.DOTALL | re.IGNORECASE)
         if not skills_match:
             return skills
         
         skills_text = skills_match.group(1)
         lines = skills_text.split('\n')
         
-        current_category = None
         for line in lines:
             line = line.strip()
-            if not line:
+            if not line or line.startswith('•'):
                 continue
             
-            # Check if line is a category (ends with colon)
-            if ':' in line and not line.startswith('•'):
+            # Look for lines that start with bullet points or have category: format
+            if ':' in line:
                 parts = line.split(':', 1)
-                current_category = parts[0].strip()
+                category = parts[0].strip()
+                # Remove any leading bullet or special characters
+                category = re.sub(r'^[•\s]+', '', category)
+                
                 if len(parts) > 1 and parts[1].strip():
-                    # Skills listed on same line
-                    skill_items = [item.strip() for item in parts[1].split(',')]
-                    skills[current_category] = skill_items
-            elif current_category and line:
-                # Skills on separate lines
-                if current_category not in skills:
-                    skills[current_category] = []
-                skill_items = [item.strip() for item in line.split(',')]
-                skills[current_category].extend(skill_items)
+                    # Skills listed on same line after colon
+                    skill_items = [item.strip() for item in parts[1].split(',') if item.strip()]
+                    skills[category] = skill_items
         
         return skills
     
@@ -147,49 +143,71 @@ class ResumeParser:
         experiences = []
         
         # Find work experience section
-        work_match = re.search(r'WORK EXPERIENCE\s*\n(.*?)(?=\n[A-Z\s]+\n|\Z)', text, re.DOTALL | re.IGNORECASE)
+        work_match = re.search(r'WORK EXPERIENCE\s*\n(.*?)(?=\nPROJECTS|\nEDUCATION|\nSKILLS|\Z)', text, re.DOTALL | re.IGNORECASE)
         if not work_match:
             return experiences
         
         work_text = work_match.group(1)
+        lines = work_text.split('\n')
         
-        # Split by job entries (look for patterns like "Title Date" or "Title Company Date")
-        job_pattern = r'([A-Za-z\s\-&]+?)\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?(?:Present|\d{4}))\s*\n([A-Za-z\s,]+?)(?:\s+(Remote|Full-time|Part-time|Contract|Consultant/Freelance).*?)?\s*\n'
+        current_job = None
+        i = 0
         
-        jobs = re.finditer(job_pattern, work_text, re.MULTILINE)
-        
-        for job in jobs:
-            title = job.group(1).strip()
-            duration = job.group(2).strip()
-            company_location = job.group(3).strip()
+        while i < len(lines):
+            line = lines[i].strip()
+            if not line:
+                i += 1
+                continue
             
-            # Parse company and location
-            company_parts = company_location.split()
-            if len(company_parts) >= 2:
-                company = company_parts[0]
-                location = ' '.join(company_parts[1:])
-            else:
-                company = company_location
+            # Look for job title lines (followed by date on same line or next line)
+            date_pattern = r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?(\d{4}|Present)'
+            
+            if re.search(date_pattern, line):
+                # This line contains a date - it's likely a job header
+                if current_job:
+                    experiences.append(current_job)
+                
+                # Split title and date
+                date_match = re.search(date_pattern, line)
+                duration = date_match.group(0) if date_match else ""
+                title = re.sub(date_pattern, '', line).strip()
+                
+                # Look for company info in next line
+                company = ""
                 location = ""
+                if i + 1 < len(lines):
+                    next_line = lines[i + 1].strip()
+                    if next_line and not next_line.startswith('•'):
+                        # Parse company and location from next line
+                        company_parts = next_line.split()
+                        if 'Remote' in next_line or 'Full-time' in next_line or 'Part-time' in next_line or 'Consultant' in next_line:
+                            # Extract company before work type
+                            work_type_match = re.search(r'(Remote|Full-time|Part-time|Contract|Consultant/Freelance)', next_line)
+                            if work_type_match:
+                                company = next_line[:work_type_match.start()].strip()
+                                location = work_type_match.group(0)
+                        else:
+                            company = next_line
+                        i += 1  # Skip the company line
+                
+                current_job = WorkExperience(
+                    title=title,
+                    company=company,
+                    location=location,
+                    duration=duration,
+                    description=[]
+                )
             
-            # Find description bullets for this job
-            job_end = job.end()
-            next_job = re.search(job_pattern, work_text[job_end:])
-            if next_job:
-                desc_text = work_text[job_end:job_end + next_job.start()]
-            else:
-                desc_text = work_text[job_end:]
+            elif line.startswith('•') and current_job:
+                # This is a bullet point for the current job
+                bullet_text = line[1:].strip()  # Remove bullet
+                current_job.description.append(bullet_text)
             
-            # Extract bullet points
-            bullets = re.findall(r'•\s*(.+)', desc_text)
-            
-            experiences.append(WorkExperience(
-                title=title,
-                company=company,
-                location=location,
-                duration=duration,
-                description=bullets
-            ))
+            i += 1
+        
+        # Add the last job
+        if current_job:
+            experiences.append(current_job)
         
         return experiences
     
@@ -198,39 +216,62 @@ class ResumeParser:
         projects = []
         
         # Find projects section
-        projects_match = re.search(r'PROJECTS\s*\n(.*?)(?=\n[A-Z\s]+\n|\Z)', text, re.DOTALL | re.IGNORECASE)
+        projects_match = re.search(r'PROJECTS\s*\n(.*?)(?=\nEDUCATION|\nCERTIFICATIONS|\nEXTRACURRICULARS|\Z)', text, re.DOTALL | re.IGNORECASE)
         if not projects_match:
             return projects
         
         projects_text = projects_match.group(1)
+        lines = projects_text.split('\n')
         
-        # Split by project entries
-        project_pattern = r'([A-Za-z\s\-&]+?)\s*\|\s*([^\s]+)\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?(?:\d{4}))\s*\n'
+        current_project = None
+        i = 0
         
-        project_matches = list(re.finditer(project_pattern, projects_text, re.MULTILINE))
+        while i < len(lines):
+            line = lines[i].strip()
+            if not line:
+                i += 1
+                continue
+            
+            # Look for project headers with | separator and dates
+            if '|' in line and re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', line):
+                if current_project:
+                    projects.append(current_project)
+                
+                # Parse project header: "Name | URL Date"
+                parts = line.split('|')
+                name = parts[0].strip()
+                
+                # Extract URL and date from second part
+                url = ""
+                duration = ""
+                if len(parts) > 1:
+                    second_part = parts[1].strip()
+                    # Look for date pattern
+                    date_match = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', second_part)
+                    if date_match:
+                        duration = date_match.group(0)
+                        # URL is what's left after removing the date
+                        url = second_part.replace(duration, '').strip()
+                    else:
+                        url = second_part
+                
+                current_project = Project(
+                    name=name,
+                    url=url,
+                    duration=duration,
+                    description=[]
+                )
+            
+            elif line.startswith('•') and current_project:
+                # This is a bullet point for the current project
+                bullet_text = line[1:].strip()  # Remove bullet
+                current_project.description.append(bullet_text)
+            
+            i += 1
         
-        for i, project in enumerate(project_matches):
-            name = project.group(1).strip()
-            url = project.group(2).strip()
-            duration = project.group(3).strip()
-            
-            # Find description for this project
-            project_end = project.end()
-            if i + 1 < len(project_matches):
-                next_project_start = project_matches[i + 1].start()
-                desc_text = projects_text[project_end:next_project_start]
-            else:
-                desc_text = projects_text[project_end:]
-            
-            # Extract bullet points
-            bullets = re.findall(r'•\s*(.+)', desc_text)
-            
-            projects.append(Project(
-                name=name,
-                url=url,
-                duration=duration,
-                description=bullets
-            ))
+        # Add the last project
+        if current_project:
+            projects.append(current_project)
         
         return projects
     
@@ -239,29 +280,65 @@ class ResumeParser:
         education = []
         
         # Find education section
-        edu_match = re.search(r'EDUCATION\s*\n(.*?)(?=\n[A-Z\s]+\n|\Z)', text, re.DOTALL | re.IGNORECASE)
+        edu_match = re.search(r'EDUCATION\s*\n(.*?)(?=\nCERTIFICATIONS|\nEXTRACURRICULARS|\Z)', text, re.DOTALL | re.IGNORECASE)
         if not edu_match:
             return education
         
         edu_text = edu_match.group(1)
+        lines = edu_text.split('\n')
         
-        # Parse education entries
-        edu_pattern = r'([A-Za-z\s]+?)\s*\|\s*([A-Za-z\s,]+?)\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?(?:\d{4}))\s*\n([A-Za-z\s,.]+)'
+        current_edu = None
+        i = 0
         
-        edu_matches = re.finditer(edu_pattern, edu_text, re.MULTILINE)
-        
-        for edu in edu_matches:
-            institution = edu.group(1).strip()
-            location = edu.group(2).strip()
-            duration = edu.group(3).strip()
-            degree = edu.group(4).strip()
+        while i < len(lines):
+            line = lines[i].strip()
+            if not line:
+                i += 1
+                continue
             
-            education.append(Education(
-                institution=institution,
-                location=location,
-                degree=degree,
-                duration=duration
-            ))
+            # Look for institution headers with | separator and dates
+            if '|' in line and re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', line):
+                if current_edu:
+                    education.append(current_edu)
+                
+                # Parse education header: "Institution | Location Date"
+                parts = line.split('|')
+                institution = parts[0].strip()
+                
+                # Extract location and date from second part
+                location = ""
+                duration = ""
+                if len(parts) > 1:
+                    second_part = parts[1].strip()
+                    # Look for date pattern
+                    date_match = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', second_part)
+                    if date_match:
+                        duration = date_match.group(0)
+                        # Location is what's left after removing the date
+                        location = second_part.replace(duration, '').strip().rstrip(',')
+                    else:
+                        location = second_part
+                
+                # Look for degree in next line
+                degree = ""
+                if i + 1 < len(lines):
+                    next_line = lines[i + 1].strip()
+                    if next_line and not ('|' in next_line or re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', next_line)):
+                        degree = next_line
+                        i += 1  # Skip the degree line
+                
+                current_edu = Education(
+                    institution=institution,
+                    location=location,
+                    degree=degree,
+                    duration=duration
+                )
+            
+            i += 1
+        
+        # Add the last education entry
+        if current_edu:
+            education.append(current_edu)
         
         return education
     
@@ -270,39 +347,62 @@ class ResumeParser:
         certifications = []
         
         # Find certifications section
-        cert_match = re.search(r'CERTIFICATIONS\s*\n(.*?)(?=\n[A-Z\s]+\n|\Z)', text, re.DOTALL | re.IGNORECASE)
+        cert_match = re.search(r'CERTIFICATIONS\s*\n(.*?)(?=\nEXTRACURRICULARS|\Z)', text, re.DOTALL | re.IGNORECASE)
         if not cert_match:
             return certifications
         
         cert_text = cert_match.group(1)
+        lines = cert_text.split('\n')
         
-        # Parse certification entries
-        cert_pattern = r'([A-Za-z\s\-()]+?)\s*\|\s*([A-Za-z\s()]+?)\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?(?:\d{4}))\s*\n'
+        current_cert = None
+        i = 0
         
-        cert_matches = list(re.finditer(cert_pattern, cert_text, re.MULTILINE))
+        while i < len(lines):
+            line = lines[i].strip()
+            if not line:
+                i += 1
+                continue
+            
+            # Look for certification headers with | separator and dates
+            if '|' in line and re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', line):
+                if current_cert:
+                    certifications.append(current_cert)
+                
+                # Parse certification header: "Name | Issuer Date"
+                parts = line.split('|')
+                name = parts[0].strip()
+                
+                # Extract issuer and date from second part
+                issuer = ""
+                duration = ""
+                if len(parts) > 1:
+                    second_part = parts[1].strip()
+                    # Look for date pattern
+                    date_match = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*?\d{4}', second_part)
+                    if date_match:
+                        duration = date_match.group(0)
+                        # Issuer is what's left after removing the date
+                        issuer = second_part.replace(duration, '').strip()
+                    else:
+                        issuer = second_part
+                
+                current_cert = Certification(
+                    name=name,
+                    issuer=issuer,
+                    duration=duration,
+                    description=[]
+                )
+            
+            elif line.startswith('•') and current_cert:
+                # This is a bullet point for the current certification
+                bullet_text = line[1:].strip()  # Remove bullet
+                current_cert.description.append(bullet_text)
+            
+            i += 1
         
-        for i, cert in enumerate(cert_matches):
-            name = cert.group(1).strip()
-            issuer = cert.group(2).strip()
-            duration = cert.group(3).strip()
-            
-            # Find description for this certification
-            cert_end = cert.end()
-            if i + 1 < len(cert_matches):
-                next_cert_start = cert_matches[i + 1].start()
-                desc_text = cert_text[cert_end:next_cert_start]
-            else:
-                desc_text = cert_text[cert_end:]
-            
-            # Extract bullet points
-            bullets = re.findall(r'•\s*(.+)', desc_text)
-            
-            certifications.append(Certification(
-                name=name,
-                issuer=issuer,
-                duration=duration,
-                description=bullets
-            ))
+        # Add the last certification
+        if current_cert:
+            certifications.append(current_cert)
         
         return certifications
     
@@ -316,10 +416,14 @@ class ResumeParser:
             return extracurriculars
         
         extra_text = extra_match.group(1)
+        lines = extra_text.split('\n')
         
-        # Extract bullet points
-        bullets = re.findall(r'•\s*(.+)', extra_text)
-        extracurriculars.extend(bullets)
+        for line in lines:
+            line = line.strip()
+            if line.startswith('•'):
+                # Extract bullet point text
+                bullet_text = line[1:].strip()
+                extracurriculars.append(bullet_text)
         
         return extracurriculars
     
