@@ -7,6 +7,8 @@ class PortfolioGenerator:
     def __init__(self):
         """Initialize the portfolio generator."""
         self.output_dir = "portfolio_website"
+        from openai import OpenAI
+        self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     
     def load_resume_data(self, json_path: str) -> Dict[str, Any]:
         """Load parsed resume data from JSON file."""
@@ -15,6 +17,85 @@ class PortfolioGenerator:
                 return json.load(f)
         except Exception as e:
             raise Exception(f"Error loading resume data: {str(e)}")
+    
+    def generate_personalized_description(self, resume_data: Dict[str, Any], description_type: str = "hero") -> str:
+        """Generate personalized description using LLM based on resume data."""
+        # Extract key information for context
+        personal_info = resume_data.get('personal_info', {})
+        work_experience = resume_data.get('work_experience', resume_data.get('experience', []))
+        projects = resume_data.get('projects', [])
+        skills = resume_data.get('skills', [])
+        education = resume_data.get('education', [])
+        
+        # Create context summary
+        context = f"""
+Resume Data Summary:
+- Name: {personal_info.get('name', 'Professional')}
+- Title/Position: {personal_info.get('title', personal_info.get('position', 'Professional'))}
+- Work Experience: {len(work_experience)} positions
+- Projects: {len(projects)} projects
+- Skills: {skills if isinstance(skills, list) else list(skills.keys()) if isinstance(skills, dict) else []}
+- Education: {len(education)} entries
+
+Work Experience Details:
+{json.dumps(work_experience[:2], indent=2) if work_experience else 'None'}
+
+Recent Projects:
+{json.dumps(projects[:2], indent=2) if projects else 'None'}
+"""
+
+        if description_type == "hero":
+            prompt = f"""Based on the following resume data, write a compelling 1-2 sentence hero description for a portfolio website. 
+
+REQUIREMENTS:
+- Be specific and concrete, not generic
+- Highlight actual skills, technologies, or achievements from the resume
+- Avoid clichés like "passionate professional", "innovative solutions", "meaningful impact"
+- Make it personal and unique to this individual
+- Focus on what they actually DO, not aspirational language
+- Keep it concise and impactful
+- Don't use buzzwords or corporate speak
+
+{context}
+
+Write only the description, no quotes or extra text:"""
+        
+        else:  # about section
+            prompt = f"""Based on the following resume data, write a personalized "About Me" section for a portfolio website.
+
+REQUIREMENTS:
+- Write 2-3 sentences that are specific to this person's background
+- Mention actual technologies, companies, or projects from their experience
+- Avoid generic phrases like "passion for innovation", "dedicated professional", "unique perspectives"
+- Be conversational but professional
+- Focus on concrete experience and skills
+- Don't use meaningless filler words
+- Make it sound human, not like an AI wrote it
+
+{context}
+
+Write only the about me text, no quotes or extra text:"""
+
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a professional copywriter who writes authentic, specific content that avoids clichés and generic language."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+                max_tokens=200
+            )
+            
+            return response.choices[0].message.content.strip()
+            
+        except Exception as e:
+            print(f"Warning: Could not generate personalized description: {str(e)}")
+            # Fallback descriptions
+            if description_type == "hero":
+                return "Building software solutions and bringing ideas to life through code."
+            else:
+                return "I work with modern technologies to create software solutions that solve real problems."
     
     def create_directory_structure(self):
         """Create the directory structure for the portfolio website."""
@@ -99,6 +180,11 @@ class PortfolioGenerator:
         projects = resume_data.get('projects', [])
         education = resume_data.get('education', [])
         
+        # Generate personalized descriptions
+        print("Generating personalized descriptions...")
+        hero_description = self.generate_personalized_description(resume_data, "hero")
+        about_description = self.generate_personalized_description(resume_data, "about")
+        
         # Generate component HTML
         social_links = self._generate_social_links(linkedin, github, website, email)
         about_details = self._generate_about_details(email, phone, location)
@@ -114,6 +200,8 @@ class PortfolioGenerator:
         html_content = html_content.replace('{{nav_logo}}', name.split()[0] if name else 'Portfolio')
         html_content = html_content.replace('{{title}}', title)
         html_content = html_content.replace('{{title_lower}}', title.lower())
+        html_content = html_content.replace('{{hero_description}}', hero_description)
+        html_content = html_content.replace('{{about_description}}', about_description)
         html_content = html_content.replace('{{social_links}}', social_links)
         html_content = html_content.replace('{{about_details}}', about_details)
         html_content = html_content.replace('{{experience_html}}', experience_html)
