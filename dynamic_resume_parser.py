@@ -188,16 +188,26 @@ IMPORTANT INSTRUCTIONS:
 
 
 def main():
-    """Example usage of the dynamic resume parser."""
+    """Main function to parse resume from command line arguments."""
+    import sys
+    
     # Initialize parser (make sure OPENAI_API_KEY is set in environment)
     parser = DynamicResumeParser()
     
-    # Example usage
+    # Check if PDF file is provided as argument
+    if len(sys.argv) < 2:
+        print("Usage: uv run dynamic_resume_parser.py <pdf_file_path> [output_json_path]")
+        print("Example: uv run dynamic_resume_parser.py resume.pdf parsed_resume.json")
+        return
+    
+    pdf_path = sys.argv[1]
+    output_path = sys.argv[2] if len(sys.argv) > 2 else "parsed_resume.json"
+    
     try:
         # Parse the resume
         result = parser.parse_resume(
-            pdf_path="Callum_Arul_Resume.pdf",
-            output_path="parsed_resume.json"
+            pdf_path=pdf_path,
+            output_path=output_path
         )
         
         print("Resume parsed successfully!")
