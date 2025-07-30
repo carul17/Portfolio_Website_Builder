@@ -435,9 +435,18 @@ section {
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-    border: 1px solid rgba(37, 99, 235, 0.2);
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.project-card:hover .project-content h3 {
+    color: #2563eb;
+}
+
+.project-card:hover .tech-tag {
+    background: #2563eb;
+    color: #fff;
 }
 
 .project-content {

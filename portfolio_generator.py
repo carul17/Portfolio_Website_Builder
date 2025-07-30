@@ -42,18 +42,24 @@ class PortfolioGenerator:
         # Load HTML template
         html_template = self.load_template('index.html')
         
-        # Extract key information with fallbacks
+        # Extract key information with fallbacks - check multiple possible locations
         personal_info = resume_data.get('personal_info', {})
-        name = personal_info.get('name', 'Professional Portfolio')
-        title = personal_info.get('title', personal_info.get('position', 'Professional'))
-        email = personal_info.get('email', '')
-        phone = personal_info.get('phone', '')
-        location = personal_info.get('location', personal_info.get('address', ''))
+        contact_info = resume_data.get('contact_info', {})
+        contact = resume_data.get('contact', {})
         
-        # Get social links
-        linkedin = personal_info.get('linkedin', '')
-        github = personal_info.get('github', '')
-        website = personal_info.get('website', '')
+        # Merge all contact sources
+        all_contact_info = {**personal_info, **contact_info, **contact}
+        
+        name = all_contact_info.get('name', personal_info.get('full_name', 'Professional Portfolio'))
+        title = all_contact_info.get('title', all_contact_info.get('position', all_contact_info.get('job_title', 'Professional')))
+        email = all_contact_info.get('email', all_contact_info.get('email_address', ''))
+        phone = all_contact_info.get('phone', all_contact_info.get('phone_number', all_contact_info.get('mobile', '')))
+        location = all_contact_info.get('location', all_contact_info.get('address', all_contact_info.get('city', '')))
+        
+        # Get social links from multiple possible locations
+        linkedin = all_contact_info.get('linkedin', all_contact_info.get('linkedin_url', ''))
+        github = all_contact_info.get('github', all_contact_info.get('github_url', ''))
+        website = all_contact_info.get('website', all_contact_info.get('portfolio', all_contact_info.get('personal_website', '')))
         
         # Get sections
         skills = resume_data.get('skills', [])
@@ -114,14 +120,14 @@ class PortfolioGenerator:
     def _generate_contact_details(self, email: str, phone: str, location: str) -> str:
         """Generate contact details HTML."""
         details = []
-        if email:
+        if email and email.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:{email}">{email}</a></div>')
-        if phone:
+        if phone and phone.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-phone"></i><a href="tel:{phone}">{phone}</a></div>')
-        if location:
+        if location and location.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>{location}</span></div>')
         
-        # If no contact details found, return empty string to show placeholder
+        # If no contact details found, return placeholder
         if not details:
             return '<div class="contact-item"><i class="fas fa-info-circle"></i><span>Contact information will be displayed here</span></div>'
         
