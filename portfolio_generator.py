@@ -48,12 +48,13 @@ Recent Projects:
             prompt = f"""Based on the following resume data, write a compelling 1-2 sentence hero description for a portfolio website. 
 
 REQUIREMENTS:
-- Be specific and concrete, not generic
-- Highlight actual skills, technologies, or achievements from the resume
-- Avoid clichés like "passionate professional", "innovative solutions", "meaningful impact"
-- Make it personal and unique to this individual
-- Focus on what they actually DO, not aspirational language
-- Keep it concise and impactful
+- Write in first person (use "I" not their name)
+- Keep it general and high-level, don't mention specific projects or tools
+- Only mention the current company they work for if applicable
+- Use a confident, professional tone
+- Focus on their role/field and general expertise
+- Keep it concise and impactful (1-2 sentences max)
+- Avoid clichés but can use phrases like "passionate about" if natural
 - Don't use buzzwords or corporate speak
 
 {context}
