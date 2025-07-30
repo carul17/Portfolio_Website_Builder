@@ -113,6 +113,30 @@ Write only the about me text, no quotes or extra text:"""
         for directory in directories:
             Path(directory).mkdir(parents=True, exist_ok=True)
     
+    def copy_resume_file(self):
+        """Copy the resume PDF file to the assets directory."""
+        import shutil
+        
+        # Look for PDF files in the current directory
+        pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf')]
+        
+        if pdf_files:
+            # Use the first PDF file found (or you can specify the exact name)
+            resume_file = pdf_files[0]
+            source_path = resume_file
+            dest_path = f"{self.output_dir}/assets/resume.pdf"
+            
+            try:
+                shutil.copy2(source_path, dest_path)
+                print(f"Copied resume file: {resume_file} -> {dest_path}")
+                return True
+            except Exception as e:
+                print(f"Warning: Could not copy resume file: {str(e)}")
+                return False
+        else:
+            print("Warning: No PDF resume file found in current directory")
+            return False
+    
     def load_template(self, template_name: str) -> str:
         """Load template file content."""
         try:
@@ -501,6 +525,9 @@ Write only the about me text, no quotes or extra text:"""
         
         print("Creating directory structure...")
         self.create_directory_structure()
+        
+        print("Copying resume file...")
+        self.copy_resume_file()
         
         print("Generating HTML...")
         html_content = self.generate_html(resume_data)
