@@ -42,24 +42,44 @@ class PortfolioGenerator:
         # Load HTML template
         html_template = self.load_template('index.html')
         
-        # Extract key information with fallbacks - check multiple possible locations
+        # Extract key information with fallbacks - check ALL possible locations
         personal_info = resume_data.get('personal_info', {})
         contact_info = resume_data.get('contact_info', {})
         contact = resume_data.get('contact', {})
         
-        # Merge all contact sources
-        all_contact_info = {**personal_info, **contact_info, **contact}
+        # Also check top-level keys and nested structures
+        all_sections = [personal_info, contact_info, contact, resume_data]
         
-        name = all_contact_info.get('name', personal_info.get('full_name', 'Professional Portfolio'))
-        title = all_contact_info.get('title', all_contact_info.get('position', all_contact_info.get('job_title', 'Professional')))
-        email = all_contact_info.get('email', all_contact_info.get('email_address', ''))
-        phone = all_contact_info.get('phone', all_contact_info.get('phone_number', all_contact_info.get('mobile', '')))
-        location = all_contact_info.get('location', all_contact_info.get('address', all_contact_info.get('city', '')))
+        # Function to search for a value across all sections
+        def find_value(keys):
+            for section in all_sections:
+                if isinstance(section, dict):
+                    for key in keys:
+                        if key in section and section[key]:
+                            return section[key]
+            return ''
+        
+        name = find_value(['name', 'full_name', 'first_name', 'last_name'])
+        if not name and 'first_name' in resume_data and 'last_name' in resume_data:
+            name = f"{resume_data['first_name']} {resume_data['last_name']}"
+        if not name:
+            name = 'Professional Portfolio'
+            
+        title = find_value(['title', 'position', 'job_title', 'role', 'current_position'])
+        if not title:
+            title = 'Professional'
+            
+        email = find_value(['email', 'email_address', 'mail', 'e_mail'])
+        phone = find_value(['phone', 'phone_number', 'mobile', 'cell', 'telephone'])
+        location = find_value(['location', 'address', 'city', 'residence', 'based_in'])
         
         # Get social links from multiple possible locations
-        linkedin = all_contact_info.get('linkedin', all_contact_info.get('linkedin_url', ''))
-        github = all_contact_info.get('github', all_contact_info.get('github_url', ''))
-        website = all_contact_info.get('website', all_contact_info.get('portfolio', all_contact_info.get('personal_website', '')))
+        linkedin = find_value(['linkedin', 'linkedin_url', 'linkedin_profile'])
+        github = find_value(['github', 'github_url', 'github_profile'])
+        website = find_value(['website', 'portfolio', 'personal_website', 'portfolio_url'])
+        
+        # Debug print to see what we found
+        print(f"Debug - Found contact info: email={email}, phone={phone}, location={location}")
         
         # Get sections
         skills = resume_data.get('skills', [])
