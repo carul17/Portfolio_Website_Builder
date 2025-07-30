@@ -312,15 +312,23 @@ class PortfolioGenerator:
 
 def main():
     """Main function to generate portfolio from parsed resume."""
+    import sys
+    
     generator = PortfolioGenerator()
+    
+    # Check if resume JSON file is provided as argument
+    json_file = "parsed_resume.json"
+    if len(sys.argv) > 1:
+        json_file = sys.argv[1]
     
     try:
         # Generate portfolio from parsed resume JSON
-        generator.generate_portfolio("parsed_resume.json")
+        generator.generate_portfolio(json_file)
         
     except Exception as e:
         print(f"Error: {str(e)}")
-        print("Make sure you have a 'parsed_resume.json' file from the resume parser.")
+        print(f"Make sure you have a '{json_file}' file from the resume parser.")
+        print("Usage: uv run portfolio_generator.py [resume_json_file]")
 
 
 if __name__ == "__main__":
