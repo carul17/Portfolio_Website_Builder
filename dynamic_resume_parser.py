@@ -158,6 +158,9 @@ JSON:"""
         print("Parsing resume with LLM...")
         structured_data = self.parse_resume_with_llm(resume_text)
         
+        # Store the source PDF path in the structured data for later use
+        structured_data['_source_pdf_path'] = os.path.abspath(pdf_path)
+        
         if output_path:
             print(f"Saving structured data to {output_path}...")
             with open(output_path, 'w', encoding='utf-8') as f:

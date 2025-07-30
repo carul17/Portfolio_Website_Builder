@@ -113,29 +113,40 @@ Write only the about me text, no quotes or extra text:"""
         for directory in directories:
             Path(directory).mkdir(parents=True, exist_ok=True)
     
-    def copy_resume_file(self):
+    def copy_resume_file(self, source_pdf_path: str = None):
         """Copy the resume PDF file to the assets directory."""
         import shutil
         
-        # Look for PDF files in the current directory
-        pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf')]
-        
-        if pdf_files:
-            # Use the first PDF file found (or you can specify the exact name)
-            resume_file = pdf_files[0]
-            source_path = resume_file
+        if source_pdf_path and os.path.exists(source_pdf_path):
+            # Use the specified PDF file
             dest_path = f"{self.output_dir}/assets/resume.pdf"
-            
             try:
-                shutil.copy2(source_path, dest_path)
-                print(f"Copied resume file: {resume_file} -> {dest_path}")
+                shutil.copy2(source_pdf_path, dest_path)
+                print(f"Copied resume file: {source_pdf_path} -> {dest_path}")
                 return True
             except Exception as e:
                 print(f"Warning: Could not copy resume file: {str(e)}")
                 return False
         else:
-            print("Warning: No PDF resume file found in current directory")
-            return False
+            # Fallback: Look for PDF files in the current directory
+            pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf')]
+            
+            if pdf_files:
+                # Use the first PDF file found
+                resume_file = pdf_files[0]
+                source_path = resume_file
+                dest_path = f"{self.output_dir}/assets/resume.pdf"
+                
+                try:
+                    shutil.copy2(source_path, dest_path)
+                    print(f"Copied resume file: {resume_file} -> {dest_path}")
+                    return True
+                except Exception as e:
+                    print(f"Warning: Could not copy resume file: {str(e)}")
+                    return False
+            else:
+                print("Warning: No PDF resume file found")
+                return False
     
     def load_template(self, template_name: str) -> str:
         """Load template file content."""
@@ -515,7 +526,7 @@ Write only the about me text, no quotes or extra text:"""
         """Generate the JavaScript file using template."""
         return self.load_template('script.js')
     
-    def generate_portfolio(self, json_path: str):
+    def generate_portfolio(self, json_path: str, source_pdf_path: str = None):
         """Generate the complete portfolio website."""
         import webbrowser
         import os
@@ -527,7 +538,9 @@ Write only the about me text, no quotes or extra text:"""
         self.create_directory_structure()
         
         print("Copying resume file...")
-        self.copy_resume_file()
+        # Use provided PDF path or try to get from JSON metadata
+        pdf_path = source_pdf_path or resume_data.get('_source_pdf_path')
+        self.copy_resume_file(pdf_path)
         
         print("Generating HTML...")
         html_content = self.generate_html(resume_data)
@@ -564,17 +577,21 @@ def main():
     
     # Check if resume JSON file is provided as argument
     json_file = "parsed_resume.json"
+    source_pdf = None
+    
     if len(sys.argv) > 1:
         json_file = sys.argv[1]
+    if len(sys.argv) > 2:
+        source_pdf = sys.argv[2]
     
     try:
         # Generate portfolio from parsed resume JSON
-        generator.generate_portfolio(json_file)
+        generator.generate_portfolio(json_file, source_pdf)
         
     except Exception as e:
         print(f"Error: {str(e)}")
         print(f"Make sure you have a '{json_file}' file from the resume parser.")
-        print("Usage: uv run portfolio_generator.py [resume_json_file]")
+        print("Usage: uv run portfolio_generator.py [resume_json_file] [source_pdf_file]")
 
 
 if __name__ == "__main__":
