@@ -144,6 +144,27 @@ body {
 
 .hero-content {
     max-width: 600px;
+    text-align: center;
+}
+
+.profile-picture {
+    margin-bottom: 2rem;
+}
+
+.profile-picture img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.profile-picture img:hover {
+    transform: scale(1.05);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
 }
 
 .greeting {

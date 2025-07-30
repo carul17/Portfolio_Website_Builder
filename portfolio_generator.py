@@ -148,6 +148,26 @@ Write only the about me text, no quotes or extra text:"""
                 print("Warning: No PDF resume file found")
                 return False
     
+    def copy_profile_picture(self, source_image_path: str = None):
+        """Copy the profile picture to the assets directory."""
+        import shutil
+        
+        if source_image_path and os.path.exists(source_image_path):
+            # Get file extension
+            _, ext = os.path.splitext(source_image_path)
+            dest_path = f"{self.output_dir}/assets/profile{ext}"
+            
+            try:
+                shutil.copy2(source_image_path, dest_path)
+                print(f"Copied profile picture: {source_image_path} -> {dest_path}")
+                return f"assets/profile{ext}"
+            except Exception as e:
+                print(f"Warning: Could not copy profile picture: {str(e)}")
+                return None
+        else:
+            print("Warning: No profile picture specified or file not found")
+            return None
+    
     def load_template(self, template_name: str) -> str:
         """Load template file content."""
         try:
@@ -156,7 +176,7 @@ Write only the about me text, no quotes or extra text:"""
         except Exception as e:
             raise Exception(f"Error loading template {template_name}: {str(e)}")
     
-    def generate_html(self, resume_data: Dict[str, Any]) -> str:
+    def generate_html(self, resume_data: Dict[str, Any], profile_picture_path: str = None) -> str:
         """Generate the main HTML file using template."""
         # Load HTML template
         html_template = self.load_template('index.html')
@@ -232,6 +252,7 @@ Write only the about me text, no quotes or extra text:"""
             about_description = self.generate_personalized_description(resume_data, "about")
         
         # Generate component HTML
+        profile_picture_html = self._generate_profile_picture_html(profile_picture_path)
         social_links = self._generate_social_links(linkedin, github, website, email)
         about_details = self._generate_about_details(email, phone, location)
         experience_html = self._generate_experience_html(work_experience)
@@ -248,6 +269,7 @@ Write only the about me text, no quotes or extra text:"""
         html_content = html_content.replace('{{title_lower}}', title.lower())
         html_content = html_content.replace('{{hero_description}}', hero_description)
         html_content = html_content.replace('{{about_description}}', about_description)
+        html_content = html_content.replace('{{profile_picture}}', profile_picture_html)
         html_content = html_content.replace('{{social_links}}', social_links)
         html_content = html_content.replace('{{about_details}}', about_details)
         html_content = html_content.replace('{{experience_html}}', experience_html)
@@ -258,6 +280,12 @@ Write only the about me text, no quotes or extra text:"""
         html_content = html_content.replace('{{social_links_contact}}', social_links_contact)
         
         return html_content
+    
+    def _generate_profile_picture_html(self, profile_picture_path: str = None) -> str:
+        """Generate profile picture HTML."""
+        if profile_picture_path:
+            return f'<div class="profile-picture"><img src="{profile_picture_path}" alt="Profile Picture"></div>'
+        return ''
     
     def _generate_social_links(self, linkedin: str, github: str, website: str, email: str) -> str:
         """Generate social links HTML for hero section."""
@@ -526,7 +554,7 @@ Write only the about me text, no quotes or extra text:"""
         """Generate the JavaScript file using template."""
         return self.load_template('script.js')
     
-    def generate_portfolio(self, json_path: str, source_pdf_path: str = None):
+    def generate_portfolio(self, json_path: str, source_pdf_path: str = None, profile_image_path: str = None):
         """Generate the complete portfolio website."""
         import webbrowser
         import os
@@ -542,8 +570,11 @@ Write only the about me text, no quotes or extra text:"""
         pdf_path = source_pdf_path or resume_data.get('_source_pdf_path')
         self.copy_resume_file(pdf_path)
         
+        print("Copying profile picture...")
+        profile_picture_path = self.copy_profile_picture(profile_image_path)
+        
         print("Generating HTML...")
-        html_content = self.generate_html(resume_data)
+        html_content = self.generate_html(resume_data, profile_picture_path)
         with open(f"{self.output_dir}/index.html", 'w', encoding='utf-8') as f:
             f.write(html_content)
         
@@ -578,20 +609,23 @@ def main():
     # Check if resume JSON file is provided as argument
     json_file = "parsed_resume.json"
     source_pdf = None
+    profile_image = None
     
     if len(sys.argv) > 1:
         json_file = sys.argv[1]
     if len(sys.argv) > 2:
         source_pdf = sys.argv[2]
+    if len(sys.argv) > 3:
+        profile_image = sys.argv[3]
     
     try:
         # Generate portfolio from parsed resume JSON
-        generator.generate_portfolio(json_file, source_pdf)
+        generator.generate_portfolio(json_file, source_pdf, profile_image)
         
     except Exception as e:
         print(f"Error: {str(e)}")
         print(f"Make sure you have a '{json_file}' file from the resume parser.")
-        print("Usage: uv run portfolio_generator.py [resume_json_file] [source_pdf_file]")
+        print("Usage: uv run portfolio_generator.py [resume_json_file] [source_pdf_file] [profile_image_file]")
 
 
 if __name__ == "__main__":
