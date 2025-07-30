@@ -521,31 +521,19 @@ section::before {
 }
 
 .project-card:hover {
-    transform: translateY(-20px) rotateX(5deg);
-    box-shadow: 0 30px 60px rgba(37, 99, 235, 0.25);
+    transform: translateY(-30px);
+    box-shadow: 0 40px 80px rgba(37, 99, 235, 0.3);
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .project-card:hover .project-content h3 {
     color: #2563eb;
-    transform: translateX(8px);
-}
-
-.project-card:hover .project-content p {
-    transform: translateX(4px);
-    color: #1f2937;
 }
 
 .project-card:hover .tech-tag {
     background: linear-gradient(45deg, #2563eb, #7c3aed);
     color: #fff;
-    transform: scale(1.05);
-}
-
-.project-card:hover .project-btn {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 
 .project-content {
