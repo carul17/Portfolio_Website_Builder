@@ -45,17 +45,17 @@ Recent Projects:
 """
 
         if description_type == "hero":
-            prompt = f"""Based on the following resume data, write a compelling 1-2 sentence hero description for a portfolio website. 
+            prompt = f"""Based on the following resume data, write a compelling 1 sentence hero description for a portfolio website. 
 
 REQUIREMENTS:
-- Write in first person (use "I" not their name)
+- DO NOT use "I am" or "I" - write directly about the person's role/expertise
+- Keep it extremely brief and concise (1 sentence only)
 - Keep it general and high-level, don't mention specific projects or tools
 - Only mention the current company they work for if applicable
 - Use a confident, professional tone
 - Focus on their role/field and general expertise
-- Keep it concise and impactful (1-2 sentences max)
-- Avoid clichés but can use phrases like "passionate about" if natural
-- Don't use buzzwords or corporate speak
+- Avoid clichés and buzzwords
+- Example format: "Software developer building web applications" NOT "I am a software developer who builds web applications"
 
 {context}
 
@@ -65,13 +65,15 @@ Write only the description, no quotes or extra text:"""
             prompt = f"""Based on the following resume data, write a personalized "About Me" section for a portfolio website.
 
 REQUIREMENTS:
-- Write 2-3 sentences that are specific to this person's background
-- Mention actual technologies, companies, or projects from their experience
-- Avoid generic phrases like "passion for innovation", "dedicated professional", "unique perspectives"
+- Write 2-3 sentences about the PERSON, not just their work
+- Use only their FIRST NAME, never their full name
+- This is an "About Me" section - focus on who they are as a person
+- Don't mention specific projects or detailed technical work
+- Can mention current work/company and general interests
 - Be conversational but professional
-- Focus on concrete experience and skills
-- Don't use meaningless filler words
-- Make it sound human, not like an AI wrote it
+- Avoid generic phrases and meaningless filler words
+- Make it sound human and personal, not corporate
+- Focus on their background, interests, and general approach to work/life
 
 {context}
 
