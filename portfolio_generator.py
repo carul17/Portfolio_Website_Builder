@@ -235,14 +235,25 @@ class PortfolioGenerator:
         return html
     
     def _format_description(self, description) -> str:
-        """Format project description by removing brackets and cleaning text."""
+        """Format project description as bullet points."""
         if isinstance(description, list):
-            # Join list items with proper formatting
-            return ' '.join(str(item).strip('[]"\'') for item in description if item)
+            # Format as bullet points
+            bullet_points = []
+            for item in description:
+                if item and str(item).strip():
+                    cleaned_item = str(item).strip('[]"\'')
+                    bullet_points.append(f'<li>{cleaned_item}</li>')
+            return f'<ul>{"".join(bullet_points)}</ul>' if bullet_points else ''
         elif isinstance(description, str):
             # Remove brackets and quotes, clean up the text
             cleaned = description.strip('[]"\'')
-            return cleaned
+            # Split by common delimiters and create bullet points
+            if '.' in cleaned and len(cleaned.split('.')) > 2:
+                sentences = [s.strip() for s in cleaned.split('.') if s.strip()]
+                bullet_points = [f'<li>{sentence}.</li>' for sentence in sentences]
+                return f'<ul>{"".join(bullet_points)}</ul>'
+            else:
+                return f'<ul><li>{cleaned}</li></ul>'
         return str(description) if description else ''
     
     def _generate_projects_html(self, projects: list) -> str:
