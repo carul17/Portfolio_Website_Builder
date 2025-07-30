@@ -119,14 +119,29 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add magnetic effect to buttons
-document.querySelectorAll('.btn, .project-btn, .social-btn').forEach(button => {
+// Add magnetic effect to buttons (more subtle for project buttons)
+document.querySelectorAll('.btn, .social-btn').forEach(button => {
     button.addEventListener('mousemove', function(e) {
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
         
         this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'translate(0px, 0px) scale(1)';
+    });
+});
+
+// More subtle magnetic effect for project buttons
+document.querySelectorAll('.project-btn').forEach(button => {
+    button.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        this.style.transform = `translate(${x * 0.03}px, ${y * 0.03}px) scale(1.02)`;
     });
     
     button.addEventListener('mouseleave', function() {
