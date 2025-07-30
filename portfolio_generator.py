@@ -42,17 +42,21 @@ class PortfolioGenerator:
         # Load HTML template
         html_template = self.load_template('index.html')
         
-        # Extract key information with fallbacks - check ALL possible locations
+        # Extract key information with fallbacks - focus on personal_info first
         personal_info = resume_data.get('personal_info', {})
         contact_info = resume_data.get('contact_info', {})
         contact = resume_data.get('contact', {})
         
-        # Also check top-level keys and nested structures
-        all_sections = [personal_info, contact_info, contact, resume_data]
-        
-        # Function to search for a value across all sections
+        # Function to search for a value, prioritizing personal_info
         def find_value(keys):
-            for section in all_sections:
+            # First check personal_info
+            if isinstance(personal_info, dict):
+                for key in keys:
+                    if key in personal_info and personal_info[key]:
+                        return personal_info[key]
+            
+            # Then check other sections
+            for section in [contact_info, contact, resume_data]:
                 if isinstance(section, dict):
                     for key in keys:
                         if key in section and section[key]:
@@ -80,6 +84,7 @@ class PortfolioGenerator:
         
         # Debug print to see what we found
         print(f"Debug - Found contact info: email={email}, phone={phone}, location={location}")
+        print(f"Debug - personal_info keys: {list(personal_info.keys()) if personal_info else 'None'}")
         
         # Get sections
         skills = resume_data.get('skills', [])
@@ -311,7 +316,7 @@ class PortfolioGenerator:
         for edu in education:
             degree = edu.get('degree', edu.get('qualification', 'Degree'))
             institution = edu.get('institution', edu.get('school', edu.get('university', 'Institution')))
-            year = edu.get('year', edu.get('graduation_year', edu.get('dates', '')))
+            year = self._format_date_range(edu.get('year', edu.get('graduation_year', edu.get('dates', ''))))
             gpa = edu.get('gpa', '')
             
             html += f'''
