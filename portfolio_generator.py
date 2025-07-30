@@ -233,7 +233,7 @@ class PortfolioGenerator:
                         </div>
                         <div class="project-links">
                             {f'<a href="{github}" target="_blank" class="project-btn"><i class="fab fa-github"></i>GitHub</a>' if github else ''}
-                            {f'<a href="{link}" target="_blank" class="project-btn"><i class="fas fa-external-link-alt"></i>Live Demo</a>' if link else ''}
+                            {f'<a href="{link}" target="_blank" class="project-btn"><i class="fab fa-github"></i>GitHub</a>' if link else ''}
                         </div>
                     </div>
                 </div>
