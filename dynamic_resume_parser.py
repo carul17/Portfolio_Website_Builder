@@ -47,7 +47,13 @@ class DynamicResumeParser:
                                 span_text = span["text"]
                                 # Check if this text is a hyperlink
                                 if span_text.strip() in link_map:
-                                    line_text += link_map[span_text.strip()] + " "
+                                    uri = link_map[span_text.strip()]
+                                    # For phone and email links, keep the display text instead of the URI
+                                    if uri.startswith('tel:') or uri.startswith('mailto:'):
+                                        line_text += span_text
+                                    else:
+                                        # For other links (like websites), use the URI
+                                        line_text += uri + " "
                                 else:
                                     line_text += span_text
                             page_text += line_text + "\n"
