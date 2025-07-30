@@ -28,10 +28,26 @@ body {
     top: 0;
     width: 100%;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     z-index: 1000;
     padding: 1rem 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.navbar::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    transition: width 0.3s ease;
+}
+
+.navbar:hover::before {
+    width: 100%;
 }
 
 .nav-container {
@@ -116,6 +132,29 @@ body {
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,1000 1000,0 1000,1000"/></svg>');
     background-size: cover;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 .hero-container {
@@ -253,6 +292,26 @@ body {
 /* Section Styles */
 section {
     padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.03), transparent);
+    animation: sectionShimmer 8s infinite;
+    pointer-events: none;
+}
+
+@keyframes sectionShimmer {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
 }
 
 .section-title {
@@ -371,7 +430,13 @@ section {
 }
 
 .timeline-content:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15);
+    border-left: 4px solid #2563eb;
+}
+
+.timeline-content:hover h3 {
+    color: #2563eb;
 }
 
 .timeline-content h3 {
@@ -434,13 +499,53 @@ section {
     transition: all 0.3s ease;
 }
 
+.project-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+    transition: left 0.8s ease;
+    z-index: 1;
+}
+
+.project-card:hover::before {
+    left: 100%;
+}
+
 .project-card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px) rotateX(5deg);
+    box-shadow: 0 30px 60px rgba(37, 99, 235, 0.25);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .project-card:hover .project-content h3 {
     color: #2563eb;
+    transform: translateX(8px);
+}
+
+.project-card:hover .project-content p {
+    transform: translateX(4px);
+    color: #1f2937;
+}
+
+.project-card:hover .tech-tag {
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.project-card:hover .project-btn {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 
 .project-content {
@@ -545,8 +650,9 @@ section {
 }
 
 .skill-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+    transform: translateY(-5px) scale(1.1) rotate(2deg);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+    background: linear-gradient(45deg, #7c3aed, #2563eb);
 }
 
 /* Education Section */
@@ -572,7 +678,14 @@ section {
 }
 
 .education-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+    border-top: 4px solid #2563eb;
+}
+
+.education-card:hover h3 {
+    color: #2563eb;
 }
 
 .education-card h3 {
@@ -665,8 +778,9 @@ section {
 }
 
 .social-btn:hover {
-    background: #60a5fa;
-    transform: translateY(-3px);
+    background: linear-gradient(45deg, #60a5fa, #3b82f6);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(96, 165, 250, 0.4);
 }
 
 /* Footer */
