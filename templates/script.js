@@ -103,16 +103,68 @@ document.querySelectorAll('.skill-item').forEach(skill => {
     });
 });
 
-// Project cards scale effect with smooth transitions
-document.querySelectorAll('.project-card').forEach(card => {
+// Enhanced project cards animation with staggered effects
+document.querySelectorAll('.project-card').forEach((card, index) => {
+    // Add initial animation delay based on card index
+    card.style.animationDelay = `${index * 0.1}s`;
+    
     card.addEventListener('mouseenter', function() {
-        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        
+        // Animate tech tags with staggered effect
+        const techTags = this.querySelectorAll('.tech-tag');
+        techTags.forEach((tag, tagIndex) => {
+            setTimeout(() => {
+                tag.style.transform = 'translateY(-2px) scale(1.05)';
+            }, tagIndex * 50);
+        });
+        
+        // Animate buttons with staggered effect
+        const buttons = this.querySelectorAll('.project-btn');
+        buttons.forEach((btn, btnIndex) => {
+            setTimeout(() => {
+                btn.style.transform = 'translateY(-3px) scale(1.05)';
+            }, btnIndex * 100);
+        });
     });
     
     card.addEventListener('mouseleave', function() {
-        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        
+        // Reset tech tags
+        const techTags = this.querySelectorAll('.tech-tag');
+        techTags.forEach(tag => {
+            tag.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        // Reset buttons
+        const buttons = this.querySelectorAll('.project-btn');
+        buttons.forEach(btn => {
+            btn.style.transform = 'translateY(0) scale(1)';
+        });
     });
+    
+    // Add floating animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = `float 3s ease-in-out infinite ${index * 0.5}s`;
+            }
+        });
+    });
+    
+    observer.observe(card);
 });
+
+// Add floating keyframe animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+    }
+`;
+document.head.appendChild(style);
 
 // Add loading animation
 window.addEventListener('load', () => {
