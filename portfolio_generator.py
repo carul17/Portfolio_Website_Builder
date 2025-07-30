@@ -285,6 +285,9 @@ class PortfolioGenerator:
     
     def generate_portfolio(self, json_path: str):
         """Generate the complete portfolio website."""
+        import webbrowser
+        import os
+        
         print("Loading resume data...")
         resume_data = self.load_resume_data(json_path)
         
@@ -307,7 +310,15 @@ class PortfolioGenerator:
             f.write(js_content)
         
         print(f"Portfolio website generated successfully in '{self.output_dir}' directory!")
-        print(f"Open '{self.output_dir}/index.html' in your browser to view the portfolio.")
+        
+        # Get absolute path to the HTML file
+        html_file_path = os.path.abspath(f"{self.output_dir}/index.html")
+        
+        # Open the website in the default browser
+        print("Opening portfolio website in browser...")
+        webbrowser.open(f"file://{html_file_path}")
+        
+        print(f"Portfolio opened at: file://{html_file_path}")
 
 
 def main():
