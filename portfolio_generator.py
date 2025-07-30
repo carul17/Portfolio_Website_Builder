@@ -292,6 +292,11 @@ Write only the about me text, no quotes or extra text:"""
     
     def _generate_experience_html(self, work_experience: list) -> str:
         """Generate HTML for work experience section."""
+        def convert_bold_to_html(text):
+            """Convert **text** to <strong>text</strong>"""
+            import re
+            return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+        
         if not work_experience:
             return '<div class="timeline-item"><h3>Experience details will be added soon.</h3></div>'
         
@@ -304,8 +309,12 @@ Write only the about me text, no quotes or extra text:"""
             description = exp.get('description', exp.get('responsibilities', ''))
             
             if isinstance(description, list):
-                description = '</li><li>'.join(description)
+                # Convert bold formatting in each list item
+                formatted_items = [convert_bold_to_html(str(item)) for item in description]
+                description = '</li><li>'.join(formatted_items)
                 description = f'<ul><li>{description}</li></ul>'
+            elif isinstance(description, str):
+                description = convert_bold_to_html(description)
             
             html += f'''
                 <div class="timeline-item">
@@ -326,18 +335,26 @@ Write only the about me text, no quotes or extra text:"""
         return html
     
     def _format_description(self, description) -> str:
-        """Format project description as bullet points similar to work experience."""
+        """Format project description as bullet points similar to work experience, preserving bold formatting."""
+        def convert_bold_to_html(text):
+            """Convert **text** to <strong>text</strong>"""
+            import re
+            return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+        
         if isinstance(description, list):
             # Format as bullet points with same styling as work experience
             bullet_points = []
             for item in description:
                 if item and str(item).strip():
                     cleaned_item = str(item).strip('[]"\'')
-                    bullet_points.append(cleaned_item)
+                    formatted_item = convert_bold_to_html(cleaned_item)
+                    bullet_points.append(formatted_item)
             return '</li><li>'.join(bullet_points) if bullet_points else ''
         elif isinstance(description, str):
             # Remove brackets and quotes, clean up the text
             cleaned = description.strip('[]"\'')
+            # Convert bold formatting
+            cleaned = convert_bold_to_html(cleaned)
             # Split by common delimiters and create bullet points
             if '.' in cleaned and len(cleaned.split('.')) > 2:
                 sentences = [s.strip() for s in cleaned.split('.') if s.strip()]

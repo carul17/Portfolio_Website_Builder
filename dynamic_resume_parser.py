@@ -13,7 +13,7 @@ class DynamicResumeParser:
         self.client = OpenAI(api_key=api_key or os.getenv('OPENAI_API_KEY'))
     
     def extract_text_from_pdf(self, pdf_path: str) -> str:
-        """Extract text content from PDF file, preserving hyperlink URLs."""
+        """Extract text content from PDF file, preserving hyperlink URLs and bold formatting."""
         try:
             doc = fitz.open(pdf_path)
             text = ""
@@ -38,24 +38,33 @@ class DynamicResumeParser:
                         if link_text:
                             link_map[link_text] = link['uri']
                 
-                # Extract text and replace link text with URLs where applicable
+                # Extract text and preserve formatting
                 for block in text_dict["blocks"]:
                     if "lines" in block:
                         for line in block["lines"]:
                             line_text = ""
                             for span in line["spans"]:
                                 span_text = span["text"]
+                                span_flags = span.get("flags", 0)
+                                
+                                # Check if text is bold (flag 16 indicates bold)
+                                is_bold = bool(span_flags & 16)
+                                
                                 # Check if this text is a hyperlink
                                 if span_text.strip() in link_map:
                                     uri = link_map[span_text.strip()]
                                     # For phone and email links, keep the display text instead of the URI
                                     if uri.startswith('tel:') or uri.startswith('mailto:'):
-                                        line_text += span_text
+                                        formatted_text = f"**{span_text}**" if is_bold else span_text
+                                        line_text += formatted_text
                                     else:
                                         # For other links (like websites), use the URI
-                                        line_text += uri + " "
+                                        formatted_text = f"**{uri}**" if is_bold else uri
+                                        line_text += formatted_text + " "
                                 else:
-                                    line_text += span_text
+                                    # Add bold markers for bold text
+                                    formatted_text = f"**{span_text}**" if is_bold else span_text
+                                    line_text += formatted_text
                             page_text += line_text + "\n"
                 
                 text += page_text + "\n"
