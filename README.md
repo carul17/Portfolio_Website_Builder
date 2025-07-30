@@ -1,107 +1,144 @@
-# Resume Parser
+# AI-Powered Resume Parser & Portfolio Generator
 
-A Python tool that extracts structured information from PDF resumes and stores it in JSON format for easy consumption by LLMs.
+A comprehensive Python toolkit that extracts structured information from PDF resumes using AI and generates beautiful, professional portfolio websites automatically.
 
-## Features
+## 🚀 Features
 
-- Extracts contact information (name, email, phone, location, LinkedIn, GitHub)
-- Parses skills organized by categories
-- Extracts work experience with descriptions
-- Parses projects with URLs and descriptions
-- Extracts education details
-- Parses certifications with descriptions
-- Extracts extracurricular activities
-- Outputs structured JSON data
+### Resume Parser (`dynamic_resume_parser.py`)
+- **AI-Powered Extraction**: Uses OpenAI GPT-4o-mini to intelligently parse resume content
+- **Bold Text Preservation**: Maintains formatting from PDFs (bold text becomes `**text**`)
+- **Flexible Structure**: Dynamically adapts to different resume formats and sections
+- **Hyperlink Detection**: Preserves URLs and contact links from PDFs
+- **Multiple Detection Methods**: Uses font flags, font names, and weights to detect formatting
+- **Custom Sections**: Automatically includes empty hero and about sections for customization
 
-## Installation
+### Portfolio Generator (`portfolio_generator.py`)
+- **Professional Design**: Modern, responsive dark theme with blue accent colors
+- **AI-Generated Content**: Creates personalized hero and about descriptions
+- **Profile Picture Support**: Adds LinkedIn-style circular profile pictures
+- **Resume Integration**: Automatically includes downloadable resume PDF
+- **Smooth Animations**: Professional hover effects and transitions
+- **Mobile Responsive**: Optimized for all device sizes
+- **SEO Friendly**: Clean HTML structure with proper meta tags
 
+## 📋 Requirements
+
+- Python 3.8+
+- OpenAI API key
+- Required packages: `openai`, `PyMuPDF` (fitz), `pathlib`
+
+## 🛠️ Installation
+
+1. Clone the repository
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
-## Usage
-
+3. Set your OpenAI API key:
 ```bash
-python resume_parser.py path/to/resume.pdf -o output.json
+export OPENAI_API_KEY="your-api-key-here"
 ```
 
-### Arguments
+## 📖 Usage
 
-- `pdf_path`: Path to the PDF resume file (required)
-- `-o, --output`: Output JSON file path (default: resume_data.json)
-
-## Example
-
+### Step 1: Parse Resume
 ```bash
-python resume_parser.py Callum_Arul_Resume.pdf -o callum_resume.json
+uv run dynamic_resume_parser.py resume.pdf [output.json]
 ```
 
-## Output Format
+### Step 2: Generate Portfolio
+```bash
+uv run portfolio_generator.py [parsed_resume.json] [resume.pdf] [profile_picture.jpg]
+```
 
-The tool generates a JSON file with the following structure:
+### Complete Example
+```bash
+# Parse the resume
+uv run dynamic_resume_parser.py Callum_Arul_Resume_August.pdf parsed_resume.json
 
+# Generate portfolio with profile picture
+uv run portfolio_generator.py parsed_resume.json Callum_Arul_Resume_August.pdf profile.jpg
+```
+
+## 📁 Project Structure
+
+```
+├── dynamic_resume_parser.py    # AI-powered PDF parser
+├── portfolio_generator.py      # Portfolio website generator
+├── templates/
+│   ├── index.html              # HTML template
+│   ├── style.css               # Professional dark theme CSS
+│   └── script.js               # Interactive JavaScript
+├── portfolio_website/          # Generated website output
+│   ├── index.html
+│   ├── css/style.css
+│   ├── js/script.js
+│   └── assets/
+│       ├── resume.pdf
+│       └── profile.jpg
+└── requirements.txt
+```
+
+## 🎨 Portfolio Features
+
+- **Hero Section**: Name, title, personalized description, profile picture
+- **About Section**: AI-generated personal introduction
+- **Experience Timeline**: Interactive work history with hover effects
+- **Projects Showcase**: Featured projects with technology tags
+- **Skills Grid**: Organized technical skills by category
+- **Education**: Academic background and achievements
+- **Contact**: Multiple contact methods and social links
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+
+## 🔧 Customization
+
+### Custom Descriptions
+Edit the generated `parsed_resume.json` file to add custom hero and about descriptions:
 ```json
 {
-  "contact_info": {
-    "name": "Full Name",
-    "location": "City, State",
-    "phone": "+1 123 456 7890",
-    "email": "email@example.com",
-    "linkedin": "linkedin.com/in/profile",
-    "github": "github.com/username"
-  },
-  "skills": {
-    "Languages": ["Python", "Java", "C++"],
-    "Frameworks": ["PyTorch", "TensorFlow"],
-    "CloudOps": ["AWS", "GCP"]
-  },
-  "work_experience": [
-    {
-      "title": "Job Title",
-      "company": "Company Name",
-      "location": "Location",
-      "duration": "Jan 2024 - Present",
-      "description": ["Bullet point 1", "Bullet point 2"]
-    }
-  ],
-  "projects": [
-    {
-      "name": "Project Name",
-      "url": "github.com/project",
-      "duration": "Jan 2024 - Feb 2024",
-      "description": ["Project description bullets"]
-    }
-  ],
-  "education": [
-    {
-      "institution": "University Name",
-      "location": "City, State",
-      "degree": "Bachelor of Science",
-      "duration": "Sep 2018 - Dec 2023"
-    }
-  ],
-  "certifications": [
-    {
-      "name": "Certification Name",
-      "issuer": "Issuing Organization",
-      "duration": "Jan 2024 - Feb 2024",
-      "description": ["Certification details"]
-    }
-  ],
-  "extracurriculars": [
-    "Activity descriptions"
-  ]
+  "hero_description": "Your custom hero description here",
+  "about_me": "Your custom about section here",
+  ...
 }
 ```
 
-## LLM Integration
+### Theme Colors
+The portfolio uses a professional blue theme. Colors can be customized in `templates/style.css`:
+- Primary: `#3b82f6`
+- Secondary: `#2563eb`
+- Dark: `#1d4ed8`
 
-The structured JSON output is designed to be easily consumed by LLMs for tasks like:
+## 📊 Output Format
 
-- Resume analysis and scoring
-- Job matching
-- Skill gap analysis
-- Interview question generation
-- Resume summarization
+The parser generates structured JSON with sections like:
+- `personal_info`: Contact details and basic information
+- `work_experience`: Job history with descriptions
+- `projects`: Portfolio projects with links and technologies
+- `skills`: Technical skills organized by category
+- `education`: Academic background
+- `hero_description`: Custom hero section text
+- `about_me`: Custom about section text
 
-The hierarchical structure allows LLMs to easily understand and process different sections of the resume.
+## 🤖 AI Integration
+
+- **Smart Parsing**: Adapts to different resume formats automatically
+- **Content Generation**: Creates engaging, personalized descriptions
+- **Format Preservation**: Maintains important formatting like bold text
+- **Context Awareness**: Generates content based on actual resume content
+
+## 🌐 Live Demo
+
+The generated portfolio includes:
+- Smooth scrolling navigation
+- Interactive animations
+- Professional typography
+- Optimized performance
+- Cross-browser compatibility
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
