@@ -83,8 +83,10 @@ class PortfolioGenerator:
         website = find_value(['website', 'portfolio', 'personal_website', 'portfolio_url'])
         
         # Debug print to see what we found
-        print(f"Debug - Found contact info: email={email}, phone={phone}, location={location}")
+        print(f"Debug - Found contact info: email='{email}', phone='{phone}', location='{location}'")
         print(f"Debug - personal_info keys: {list(personal_info.keys()) if personal_info else 'None'}")
+        print(f"Debug - personal_info content: {personal_info}")
+        print(f"Debug - Full resume_data keys: {list(resume_data.keys())}")
         
         # Get sections
         skills = resume_data.get('skills', [])
@@ -144,19 +146,27 @@ class PortfolioGenerator:
     
     def _generate_contact_details(self, email: str, phone: str, location: str) -> str:
         """Generate contact details HTML."""
+        print(f"Debug - Generating contact details with: email='{email}', phone='{phone}', location='{location}'")
+        
         details = []
         if email and email.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:{email}">{email}</a></div>')
+            print(f"Debug - Added email: {email}")
         if phone and phone.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-phone"></i><a href="tel:{phone}">{phone}</a></div>')
+            print(f"Debug - Added phone: {phone}")
         if location and location.strip():
             details.append(f'<div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>{location}</span></div>')
+            print(f"Debug - Added location: {location}")
         
         # If no contact details found, return placeholder
         if not details:
+            print("Debug - No contact details found, returning placeholder")
             return '<div class="contact-item"><i class="fas fa-info-circle"></i><span>Contact information will be displayed here</span></div>'
         
-        return ''.join(details)
+        result = ''.join(details)
+        print(f"Debug - Final contact details HTML: {result}")
+        return result
     
     def _generate_social_links_contact(self, linkedin: str, github: str, website: str) -> str:
         """Generate social links HTML for contact section."""
