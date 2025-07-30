@@ -1,5 +1,5 @@
 import json
-import PyPDF2
+import fitz  # PyMuPDF
 from openai import OpenAI
 import os
 from typing import Dict, Any
@@ -13,14 +13,49 @@ class DynamicResumeParser:
         self.client = OpenAI(api_key=api_key or os.getenv('OPENAI_API_KEY'))
     
     def extract_text_from_pdf(self, pdf_path: str) -> str:
-        """Extract text content from PDF file."""
+        """Extract text content from PDF file, preserving hyperlink URLs."""
         try:
-            with open(pdf_path, 'rb') as file:
-                pdf_reader = PyPDF2.PdfReader(file)
-                text = ""
-                for page in pdf_reader.pages:
-                    text += page.extract_text() + "\n"
-                return text.strip()
+            doc = fitz.open(pdf_path)
+            text = ""
+            
+            for page_num in range(len(doc)):
+                page = doc.load_page(page_num)
+                
+                # Get text blocks with their positions
+                text_dict = page.get_text("dict")
+                page_text = ""
+                
+                # Extract links from the page
+                links = page.get_links()
+                link_map = {}
+                
+                # Create a mapping of text positions to URLs
+                for link in links:
+                    if 'uri' in link:
+                        rect = link['from']
+                        # Get text in the link rectangle
+                        link_text = page.get_textbox(rect).strip()
+                        if link_text:
+                            link_map[link_text] = link['uri']
+                
+                # Extract text and replace link text with URLs where applicable
+                for block in text_dict["blocks"]:
+                    if "lines" in block:
+                        for line in block["lines"]:
+                            line_text = ""
+                            for span in line["spans"]:
+                                span_text = span["text"]
+                                # Check if this text is a hyperlink
+                                if span_text.strip() in link_map:
+                                    line_text += link_map[span_text.strip()] + " "
+                                else:
+                                    line_text += span_text
+                            page_text += line_text + "\n"
+                
+                text += page_text + "\n"
+            
+            doc.close()
+            return text.strip()
         except Exception as e:
             raise Exception(f"Error reading PDF: {str(e)}")
     
