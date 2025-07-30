@@ -97,17 +97,17 @@ document.querySelectorAll('.skill-item').forEach((skill, index) => {
     skill.style.animationDelay = `${index * 0.1}s`;
     
     skill.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px) scale(1.1) rotate(2deg)';
-        this.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        this.style.transform = 'translateY(-3px) scale(1.05)';
+        this.style.transition = 'all 0.3s ease';
     });
     
     skill.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-        this.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        this.style.transform = 'translateY(0) scale(1)';
+        this.style.transition = 'all 0.3s ease';
     });
 });
 
-// Add smooth parallax effect to hero section
+// Add subtle parallax effect to hero section
 let ticking = false;
 
 function updateParallax() {
@@ -116,9 +116,9 @@ function updateParallax() {
     const heroContent = document.querySelector('.hero-content');
     
     if (hero && heroContent && scrolled < window.innerHeight) {
-        // Use more subtle parallax values and smooth transitions
-        hero.style.transform = `translateY(${scrolled * 0.2}px)`;
-        heroContent.style.transform = `translateY(${scrolled * 0.1}px)`;
+        // Very subtle parallax effect
+        hero.style.transform = `translateY(${scrolled * 0.1}px)`;
+        heroContent.style.transform = `translateY(${scrolled * 0.05}px)`;
     }
     
     ticking = false;
@@ -131,33 +131,25 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add magnetic effect to buttons (more subtle for project buttons)
+// Add subtle hover effects to buttons
 document.querySelectorAll('.btn, .social-btn').forEach(button => {
-    button.addEventListener('mousemove', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        
-        this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px) scale(1.02)';
     });
     
     button.addEventListener('mouseleave', function() {
-        this.style.transform = 'translate(0px, 0px) scale(1)';
+        this.style.transform = 'translateY(0) scale(1)';
     });
 });
 
-// More subtle magnetic effect for project buttons
+// Subtle hover effect for project buttons
 document.querySelectorAll('.project-btn').forEach(button => {
-    button.addEventListener('mousemove', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        
-        this.style.transform = `translate(${x * 0.03}px, ${y * 0.03}px) scale(1.02)`;
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-1px) scale(1.01)';
     });
     
     button.addEventListener('mouseleave', function() {
-        this.style.transform = 'translate(0px, 0px) scale(1)';
+        this.style.transform = 'translateY(0) scale(1)';
     });
 });
 
