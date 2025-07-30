@@ -54,10 +54,10 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for animation (excluding project cards and timeline items)
+// Observe elements for animation (excluding project cards, timeline items, and education cards)
 document.addEventListener('DOMContentLoaded', () => {
     // Add animation classes to elements
-    const animatedElements = document.querySelectorAll('.skill-category, .education-card');
+    const animatedElements = document.querySelectorAll('.skill-category');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
@@ -161,8 +161,8 @@ document.querySelectorAll('.project-btn').forEach(button => {
     });
 });
 
-// Add smooth reveal animations for sections (excluding project cards and timeline items)
-const revealElements = document.querySelectorAll('.skill-category, .education-card');
+// Add smooth reveal animations for sections (excluding project cards, timeline items, and education cards)
+const revealElements = document.querySelectorAll('.skill-category');
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
         if (entry.isIntersecting) {

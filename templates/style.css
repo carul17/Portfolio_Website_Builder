@@ -662,18 +662,12 @@ section {
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .education-card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    border-top: 4px solid #2563eb;
-}
-
-.education-card:hover h3 {
-    color: #2563eb;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    background: #fafbfc;
 }
 
 .education-card h3 {
