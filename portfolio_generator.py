@@ -235,25 +235,24 @@ class PortfolioGenerator:
         return html
     
     def _format_description(self, description) -> str:
-        """Format project description as bullet points."""
+        """Format project description as bullet points similar to work experience."""
         if isinstance(description, list):
-            # Format as bullet points
+            # Format as bullet points with same styling as work experience
             bullet_points = []
             for item in description:
                 if item and str(item).strip():
                     cleaned_item = str(item).strip('[]"\'')
-                    bullet_points.append(f'<li>{cleaned_item}</li>')
-            return f'<ul>{"".join(bullet_points)}</ul>' if bullet_points else ''
+                    bullet_points.append(cleaned_item)
+            return '</li><li>'.join(bullet_points) if bullet_points else ''
         elif isinstance(description, str):
             # Remove brackets and quotes, clean up the text
             cleaned = description.strip('[]"\'')
             # Split by common delimiters and create bullet points
             if '.' in cleaned and len(cleaned.split('.')) > 2:
                 sentences = [s.strip() for s in cleaned.split('.') if s.strip()]
-                bullet_points = [f'<li>{sentence}.</li>' for sentence in sentences]
-                return f'<ul>{"".join(bullet_points)}</ul>'
+                return '</li><li>'.join([f'{sentence}.' for sentence in sentences])
             else:
-                return f'<ul><li>{cleaned}</li></ul>'
+                return cleaned
         return str(description) if description else ''
     
     def _generate_projects_html(self, projects: list) -> str:
@@ -274,11 +273,16 @@ class PortfolioGenerator:
             else:
                 tech_tags = f'<span class="tech-tag">{technologies}</span>' if technologies else ''
             
+            # Format description as bullet points if it exists
+            description_html = ''
+            if description:
+                description_html = f'<div class="project-description"><ul><li>{description}</li></ul></div>'
+            
             html += f'''
                 <div class="project-card">
                     <div class="project-content">
                         <h3>{name}</h3>
-                        <p>{description}</p>
+                        {description_html}
                         <div class="tech-stack">
                             {tech_tags}
                         </div>

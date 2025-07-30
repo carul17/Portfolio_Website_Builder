@@ -525,12 +525,37 @@ section {
     transition: all 0.3s ease;
 }
 
+.project-description ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.project-description li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.project-description li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+}
+
 .project-card:hover .project-content h3 {
     color: #2563eb;
     transform: translateX(5px);
 }
 
 .project-card:hover .project-content p {
+    color: #1f2937;
+}
+
+.project-card:hover .project-description li {
     color: #1f2937;
 }
 
