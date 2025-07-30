@@ -121,6 +121,8 @@ body {
     color: white;
     position: relative;
     overflow: hidden;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
 }
 
 .hero::before {
@@ -167,6 +169,8 @@ body {
 
 .hero-content {
     max-width: 600px;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
 }
 
 .greeting {

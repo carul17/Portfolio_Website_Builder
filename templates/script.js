@@ -107,15 +107,27 @@ document.querySelectorAll('.skill-item').forEach((skill, index) => {
     });
 });
 
-// Add parallax effect to hero section
-window.addEventListener('scroll', () => {
+// Add smooth parallax effect to hero section
+let ticking = false;
+
+function updateParallax() {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
     const heroContent = document.querySelector('.hero-content');
     
-    if (hero && heroContent) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+    if (hero && heroContent && scrolled < window.innerHeight) {
+        // Use more subtle parallax values and smooth transitions
+        hero.style.transform = `translateY(${scrolled * 0.2}px)`;
+        heroContent.style.transform = `translateY(${scrolled * 0.1}px)`;
+    }
+    
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
     }
 });
 
