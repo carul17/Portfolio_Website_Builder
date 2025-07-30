@@ -192,6 +192,20 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
+// Hide scroll indicator when scrolling down
+window.addEventListener('scroll', () => {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        if (window.scrollY > 100) {
+            scrollIndicator.style.opacity = '0';
+            scrollIndicator.style.visibility = 'hidden';
+        } else {
+            scrollIndicator.style.opacity = '1';
+            scrollIndicator.style.visibility = 'visible';
+        }
+    }
+});
+
 // Scroll progress indicator
 const createScrollProgress = () => {
     const progressBar = document.createElement('div');
