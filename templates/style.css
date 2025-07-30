@@ -12,8 +12,8 @@ html {
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #e2e8f0;
-    background-color: #0f172a;
+    color: #f8fafc;
+    background-color: #000000;
 }
 
 .container {
@@ -27,12 +27,12 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(15px);
     z-index: 1000;
     padding: 1rem 0;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar::before {
@@ -72,7 +72,7 @@ body {
 }
 
 .nav-link {
-    color: #e2e8f0;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -107,7 +107,7 @@ body {
 .bar {
     width: 25px;
     height: 3px;
-    background-color: #e2e8f0;
+    background-color: #ffffff;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -117,7 +117,7 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    background: linear-gradient(135deg, #000000 0%, #111111 100%);
     color: white;
     position: relative;
     overflow: hidden;
@@ -221,7 +221,7 @@ body {
 
 .btn-primary {
     background: #60a5fa;
-    color: #0f172a;
+    color: #000000;
 }
 
 .btn-primary:hover {
@@ -237,7 +237,7 @@ body {
 
 .btn-secondary:hover {
     background: #60a5fa;
-    color: #0f172a;
+    color: #000000;
 }
 
 .social-links {
@@ -260,7 +260,7 @@ body {
 
 .social-links a:hover {
     background: #60a5fa;
-    color: #0f172a;
+    color: #000000;
     transform: translateY(-3px);
 }
 
@@ -322,7 +322,7 @@ section {
 
 /* About Section */
 .about {
-    background: #1e293b;
+    background: #111111;
 }
 
 .about-content {
@@ -334,7 +334,7 @@ section {
 .about-text p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
-    color: #cbd5e1;
+    color: #e5e7eb;
     line-height: 1.8;
 }
 
@@ -349,7 +349,7 @@ section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #94a3b8;
+    color: #d1d5db;
 }
 
 .detail-item i {
@@ -370,7 +370,7 @@ section {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: #475569;
+    background: #374151;
     transform: translateX(-50%);
 }
 
@@ -408,16 +408,16 @@ section {
 }
 
 .timeline-content {
-    background: #334155;
+    background: #1f2937;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     transition: all 0.2s ease;
 }
 
 .timeline-content:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    background: #475569;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    background: #374151;
 }
 
 .timeline-content h3 {
@@ -437,7 +437,7 @@ section {
     gap: 1rem;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    color: #94a3b8;
+    color: #d1d5db;
 }
 
 .timeline-description ul {
@@ -449,7 +449,7 @@ section {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #cbd5e1;
+    color: #e5e7eb;
 }
 
 .timeline-description li::before {
@@ -461,7 +461,7 @@ section {
 
 /* Projects Section */
 .projects {
-    background: #1e293b;
+    background: #111111;
 }
 
 .projects-grid {
@@ -473,10 +473,10 @@ section {
 }
 
 .project-card {
-    background: #334155;
+    background: #1f2937;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateY(0);
@@ -484,8 +484,8 @@ section {
 
 .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(96, 165, 250, 0.2);
-    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    box-shadow: 0 25px 50px rgba(96, 165, 250, 0.3);
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
 }
 
 .project-card::before {
@@ -519,7 +519,7 @@ section {
 }
 
 .project-content p {
-    color: #cbd5e1;
+    color: #e5e7eb;
     margin-bottom: 1.5rem;
     line-height: 1.6;
     transition: all 0.3s ease;
@@ -535,7 +535,7 @@ section {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #cbd5e1;
+    color: #e5e7eb;
     line-height: 1.6;
 }
 
@@ -567,8 +567,8 @@ section {
 }
 
 .tech-tag {
-    background: #475569;
-    color: #e2e8f0;
+    background: #374151;
+    color: #ffffff;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -579,7 +579,7 @@ section {
 
 .project-card:hover .tech-tag {
     background: linear-gradient(45deg, #60a5fa, #a78bfa);
-    color: #0f172a;
+    color: #000000;
     transform: translateY(-2px);
 }
 
@@ -591,7 +591,7 @@ section {
 .project-btn {
     padding: 0.7rem 1.5rem;
     background: #60a5fa;
-    color: #0f172a;
+    color: #000000;
     text-decoration: none;
     border-radius: 25px;
     font-weight: 500;
@@ -633,10 +633,10 @@ section {
 }
 
 .skill-category {
-    background: #334155;
+    background: #1f2937;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     text-align: center;
 }
 
@@ -655,7 +655,7 @@ section {
 
 .skill-item {
     background: linear-gradient(45deg, #60a5fa, #a78bfa);
-    color: #0f172a;
+    color: #000000;
     padding: 0.6rem 1.2rem;
     border-radius: 25px;
     font-weight: 500;
@@ -670,7 +670,7 @@ section {
 
 /* Education Section */
 .education {
-    background: #1e293b;
+    background: #111111;
 }
 
 .education-grid {
@@ -682,17 +682,17 @@ section {
 }
 
 .education-card {
-    background: #334155;
+    background: #1f2937;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     text-align: center;
     transition: all 0.2s ease;
 }
 
 .education-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    background: #475569;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    background: #374151;
 }
 
 .education-card h3 {
@@ -711,13 +711,13 @@ section {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    color: #94a3b8;
+    color: #d1d5db;
     font-size: 0.9rem;
 }
 
 /* Contact Section */
 .contact {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, #000000 0%, #111111 100%);
     color: #fff;
 }
 
@@ -756,7 +756,7 @@ section {
 }
 
 .contact-item a {
-    color: #e2e8f0;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -792,8 +792,8 @@ section {
 
 /* Footer */
 .footer {
-    background: #020617;
-    color: #64748b;
+    background: #000000;
+    color: #9ca3af;
     text-align: center;
     padding: 2rem 0;
 }
@@ -809,11 +809,11 @@ section {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: #1e293b;
+        background-color: #000000;
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0,0,0,0.3);
+        box-shadow: 0 10px 27px rgba(0,0,0,0.5);
         padding: 2rem 0;
     }
     
