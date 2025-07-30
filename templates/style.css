@@ -12,8 +12,8 @@ html {
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #ffffff;
+    color: #e2e8f0;
+    background-color: #0f172a;
 }
 
 .container {
@@ -27,12 +27,12 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(15px);
     z-index: 1000;
     padding: 1rem 0;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .navbar::before {
@@ -42,7 +42,7 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
     transition: width 0.3s ease;
 }
 
@@ -62,7 +62,7 @@ body {
 .nav-logo a {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2563eb;
+    color: #60a5fa;
     text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ body {
 }
 
 .nav-link {
-    color: #333;
+    color: #e2e8f0;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -80,7 +80,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #2563eb;
+    color: #60a5fa;
 }
 
 .nav-link::after {
@@ -90,7 +90,7 @@ body {
     height: 2px;
     bottom: -5px;
     left: 0;
-    background-color: #2563eb;
+    background-color: #60a5fa;
     transition: width 0.3s ease;
 }
 
@@ -107,7 +107,7 @@ body {
 .bar {
     width: 25px;
     height: 3px;
-    background-color: #333;
+    background-color: #e2e8f0;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -117,7 +117,7 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
     color: white;
     position: relative;
     overflow: hidden;
@@ -220,8 +220,8 @@ body {
 }
 
 .btn-primary {
-    background: #fff;
-    color: #2563eb;
+    background: #60a5fa;
+    color: #0f172a;
 }
 
 .btn-primary:hover {
@@ -232,12 +232,12 @@ body {
 .btn-secondary {
     background: transparent;
     color: #fff;
-    border: 2px solid #fff;
+    border: 2px solid #60a5fa;
 }
 
 .btn-secondary:hover {
-    background: #fff;
-    color: #2563eb;
+    background: #60a5fa;
+    color: #0f172a;
 }
 
 .social-links {
@@ -259,8 +259,8 @@ body {
 }
 
 .social-links a:hover {
-    background: #fff;
-    color: #2563eb;
+    background: #60a5fa;
+    color: #0f172a;
     transform: translateY(-3px);
 }
 
@@ -304,7 +304,7 @@ section {
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 3rem;
-    color: #1f2937;
+    color: #f1f5f9;
     position: relative;
 }
 
@@ -316,13 +316,13 @@ section {
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: linear-gradient(45deg, #2563eb, #7c3aed);
+    background: linear-gradient(45deg, #60a5fa, #a78bfa);
     border-radius: 2px;
 }
 
 /* About Section */
 .about {
-    background: #f8fafc;
+    background: #1e293b;
 }
 
 .about-content {
@@ -334,7 +334,7 @@ section {
 .about-text p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
-    color: #4b5563;
+    color: #cbd5e1;
     line-height: 1.8;
 }
 
@@ -349,11 +349,11 @@ section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #6b7280;
+    color: #94a3b8;
 }
 
 .detail-item i {
-    color: #2563eb;
+    color: #60a5fa;
 }
 
 /* Experience Section */
@@ -370,7 +370,7 @@ section {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: #e5e7eb;
+    background: #475569;
     transform: translateX(-50%);
 }
 
@@ -394,7 +394,7 @@ section {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: #2563eb;
+    background: #60a5fa;
     border-radius: 50%;
     top: 0;
 }
@@ -408,26 +408,26 @@ section {
 }
 
 .timeline-content {
-    background: #fff;
+    background: #334155;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: all 0.2s ease;
 }
 
 .timeline-content:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    background: #fafbfc;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    background: #475569;
 }
 
 .timeline-content h3 {
-    color: #1f2937;
+    color: #f1f5f9;
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
 }
 
 .timeline-content h4 {
-    color: #2563eb;
+    color: #60a5fa;
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -437,7 +437,7 @@ section {
     gap: 1rem;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    color: #6b7280;
+    color: #94a3b8;
 }
 
 .timeline-description ul {
@@ -449,19 +449,19 @@ section {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #4b5563;
+    color: #cbd5e1;
 }
 
 .timeline-description li::before {
     content: '▸';
     position: absolute;
     left: 0;
-    color: #2563eb;
+    color: #60a5fa;
 }
 
 /* Projects Section */
 .projects {
-    background: #f8fafc;
+    background: #1e293b;
 }
 
 .projects-grid {
@@ -473,10 +473,10 @@ section {
 }
 
 .project-card {
-    background: #fff;
+    background: #334155;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateY(0);
@@ -484,8 +484,8 @@ section {
 
 .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(37, 99, 235, 0.15);
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 25px 50px rgba(96, 165, 250, 0.2);
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
 }
 
 .project-card::before {
@@ -495,7 +495,7 @@ section {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -512,14 +512,14 @@ section {
 }
 
 .project-content h3 {
-    color: #1f2937;
+    color: #f1f5f9;
     margin-bottom: 1rem;
     font-size: 1.4rem;
     transition: all 0.3s ease;
 }
 
 .project-content p {
-    color: #4b5563;
+    color: #cbd5e1;
     margin-bottom: 1.5rem;
     line-height: 1.6;
     transition: all 0.3s ease;
@@ -535,7 +535,7 @@ section {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #4b5563;
+    color: #cbd5e1;
     line-height: 1.6;
 }
 
@@ -543,20 +543,20 @@ section {
     content: '▸';
     position: absolute;
     left: 0;
-    color: #2563eb;
+    color: #60a5fa;
 }
 
 .project-card:hover .project-content h3 {
-    color: #2563eb;
+    color: #60a5fa;
     transform: translateX(5px);
 }
 
 .project-card:hover .project-content p {
-    color: #1f2937;
+    color: #f1f5f9;
 }
 
 .project-card:hover .project-description li {
-    color: #1f2937;
+    color: #f1f5f9;
 }
 
 .tech-stack {
@@ -567,8 +567,8 @@ section {
 }
 
 .tech-tag {
-    background: #e0e7ff;
-    color: #3730a3;
+    background: #475569;
+    color: #e2e8f0;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -578,8 +578,8 @@ section {
 }
 
 .project-card:hover .tech-tag {
-    background: linear-gradient(45deg, #2563eb, #7c3aed);
-    color: #fff;
+    background: linear-gradient(45deg, #60a5fa, #a78bfa);
+    color: #0f172a;
     transform: translateY(-2px);
 }
 
@@ -633,15 +633,15 @@ section {
 }
 
 .skill-category {
-    background: #fff;
+    background: #334155;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     text-align: center;
 }
 
 .skill-category h3 {
-    color: #1f2937;
+    color: #f1f5f9;
     margin-bottom: 1.5rem;
     font-size: 1.3rem;
 }
@@ -654,8 +654,8 @@ section {
 }
 
 .skill-item {
-    background: linear-gradient(45deg, #2563eb, #7c3aed);
-    color: #fff;
+    background: linear-gradient(45deg, #60a5fa, #a78bfa);
+    color: #0f172a;
     padding: 0.6rem 1.2rem;
     border-radius: 25px;
     font-weight: 500;
@@ -664,13 +664,13 @@ section {
 
 .skill-item:hover {
     transform: translateY(-5px) scale(1.1) rotate(2deg);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
-    background: linear-gradient(45deg, #7c3aed, #2563eb);
+    box-shadow: 0 8px 25px rgba(96, 165, 250, 0.6);
+    background: linear-gradient(45deg, #a78bfa, #60a5fa);
 }
 
 /* Education Section */
 .education {
-    background: #f8fafc;
+    background: #1e293b;
 }
 
 .education-grid {
@@ -682,27 +682,27 @@ section {
 }
 
 .education-card {
-    background: #fff;
+    background: #334155;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     text-align: center;
     transition: all 0.2s ease;
 }
 
 .education-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    background: #fafbfc;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    background: #475569;
 }
 
 .education-card h3 {
-    color: #1f2937;
+    color: #f1f5f9;
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
 }
 
 .education-card h4 {
-    color: #2563eb;
+    color: #60a5fa;
     margin-bottom: 1rem;
     font-weight: 600;
 }
@@ -711,13 +711,13 @@ section {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    color: #6b7280;
+    color: #94a3b8;
     font-size: 0.9rem;
 }
 
 /* Contact Section */
 .contact {
-    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #fff;
 }
 
@@ -756,7 +756,7 @@ section {
 }
 
 .contact-item a {
-    color: #fff;
+    color: #e2e8f0;
     text-decoration: none;
 }
 
@@ -792,8 +792,8 @@ section {
 
 /* Footer */
 .footer {
-    background: #111827;
-    color: #9ca3af;
+    background: #020617;
+    color: #64748b;
     text-align: center;
     padding: 2rem 0;
 }
@@ -809,11 +809,11 @@ section {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: #fff;
+        background-color: #1e293b;
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 27px rgba(0,0,0,0.3);
         padding: 2rem 0;
     }
     
