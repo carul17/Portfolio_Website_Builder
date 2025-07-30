@@ -296,7 +296,7 @@ section {
 
 /* About Section */
 .about {
-    background: #1e293b;
+    background: linear-gradient(180deg, #0f1419 0%, #1e293b 50%, #1e293b 100%);
 }
 
 .about-content {
@@ -331,6 +331,10 @@ section {
 }
 
 /* Experience Section */
+.experience {
+    background: linear-gradient(180deg, #1e293b 0%, #0f1419 50%, #1e293b 100%);
+}
+
 .timeline {
     max-width: 800px;
     margin: 0 auto;
@@ -435,7 +439,7 @@ section {
 
 /* Projects Section */
 .projects {
-    background: #1e293b;
+    background: linear-gradient(180deg, #1e293b 0%, #1e293b 100%);
 }
 
 .projects-grid {
@@ -598,6 +602,10 @@ section {
 }
 
 /* Skills Section */
+.skills {
+    background: linear-gradient(180deg, #1e293b 0%, #0f1419 50%, #1e293b 100%);
+}
+
 .skills-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -644,7 +652,7 @@ section {
 
 /* Education Section */
 .education {
-    background: #1e293b;
+    background: linear-gradient(180deg, #1e293b 0%, #1e293b 100%);
 }
 
 .education-grid {
@@ -691,7 +699,7 @@ section {
 
 /* Contact Section */
 .contact {
-    background: linear-gradient(135deg, #0f1419 0%, #1e293b 100%);
+    background: linear-gradient(180deg, #1e293b 0%, #0f1419 50%, #0f1419 100%);
     color: #fff;
 }
 
