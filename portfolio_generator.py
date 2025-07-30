@@ -49,11 +49,16 @@ class PortfolioGenerator:
         
         # Function to search for a value, prioritizing personal_info
         def find_value(keys):
-            # First check personal_info
+            # First check personal_info (including nested contact)
             if isinstance(personal_info, dict):
                 for key in keys:
                     if key in personal_info and personal_info[key]:
                         return personal_info[key]
+                # Also check nested contact within personal_info
+                if 'contact' in personal_info and isinstance(personal_info['contact'], dict):
+                    for key in keys:
+                        if key in personal_info['contact'] and personal_info['contact'][key]:
+                            return personal_info['contact'][key]
             
             # Then check other sections
             for section in [contact_info, contact, resume_data]:
